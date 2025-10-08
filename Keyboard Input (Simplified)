@@ -12,6 +12,7 @@ function draw() {
 }
 
 //ensures that only letter characters a-z (lowercase and uppercase) are read from keyboard input
+//the P5.js built in keyCode variable gives the same character code for lowercase and uppercase letters, but the built in key variable records both, which is why this works for both
 function keyPressed() {
   if (keyCode >= 65 && keyCode <= 90) {
     return key;

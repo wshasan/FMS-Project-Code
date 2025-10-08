@@ -1,0 +1,16 @@
+function setup() {
+  createCanvas(400, 400);
+  background(220);
+  circle(random(350), random(350), 75);
+  circle(random(350), random(350), 75);
+  circle(random(350), random(350), 75);
+  circle(random(350), random(350), 75);
+  circle(random(350), random(350), 75);
+  
+}
+
+function draw() {
+  //background(220);
+  
+}
+

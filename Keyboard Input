@@ -95,6 +95,5 @@ function keyPressed() {
   else if (key === "z") {
     keyString = "z";
   }
-
   return keyString;
 }

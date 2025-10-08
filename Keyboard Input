@@ -1,0 +1,100 @@
+function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  background(220);
+  
+  //call the keyPressed() function in your code to return 
+  //a String value given its parameters
+  //text(text, x position, y position)
+  text(keyPressed(), 200, 200);
+}
+
+//returns the key pressed by the user if it is lowercase from a-z
+//returns empty text (returns nothing) if character pressed is not 
+//lowercase a-z
+function keyPressed() {
+  let keyString = "";
+  
+  if (key === "a") {
+    keyString = "a";
+  }
+  else if (key === "b") {
+    keyString = "b";
+  }
+  else if (key === "c") {
+    keyString = "c";
+  }
+  else if (key === "d") {
+    keyString = "d";
+  }
+  else if (key === "e") {
+    keyString = "e";
+  }
+  else if (key === "f") {
+    keyString = "f";
+  }
+  else if (key === "g") {
+    keyString = "g";
+  }
+  else if (key === "h") {
+    keyString = "h";
+  }
+  else if (key === "i") {
+    keyString = "i";
+  }
+  else if (key === "j") {
+    keyString = "j";
+  }
+  else if (key === "k") {
+    keyString = "k";
+  }
+  else if (key === "l") {
+    keyString = "l";
+  }
+  else if (key === "m") {
+    keyString = "m";
+  }
+  else if (key === "n") {
+    keyString = "n";
+  }
+  else if (key === "o") {
+    keyString = "o";
+  }
+  else if (key === "p") {
+    keyString = "p";
+  }
+  else if (key === "q") {
+    keyString = "q";
+  }
+  else if (key === "r") {
+    keyString = "r";
+  }
+  else if (key === "s") {
+    keyString = "s";
+  }
+  else if (key === "t") {
+    keyString = "t";
+  }
+  else if (key === "u") {
+    keyString = "u";
+  }
+  else if (key === "v") {
+    keyString = "v";
+  }
+  else if (key === "w") {
+    keyString = "w";
+  }
+  else if (key === "x") {
+    keyString = "x";
+  }
+  else if (key === "y") {
+    keyString = "y";
+  }
+  else if (key === "z") {
+    keyString = "z";
+  }
+
+  return keyString;
+}

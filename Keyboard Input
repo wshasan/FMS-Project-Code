@@ -5,16 +5,27 @@ function setup() {
 function draw() {
   background(220);
   
-  //call the keyPressed() function in your code to return 
-  //a String value given its parameters
+  //call the keyPressed() function below in your code to return 
+  //keyboard input that is restricted to lowercase and uppercase from a-z
   //text(text, x position, y position)
   text(keyPressed(), 200, 200);
 }
 
+//ensures that only letter characters a-z (lowercase and uppercase) are read from keyboard input
+function keyPressed() {
+  if (keyCode >= 65 && keyCode <= 90) {
+    return key;
+  }
+  else {
+    return "";
+  }
+}
+
+//-- Old Code --
 //returns the key pressed by the user if it is lowercase from a-z
 //returns empty text (returns nothing) if character pressed is not 
 //lowercase a-z
-function keyPressed() {
+/*function keyPressed() {
   let keyString = "";
   
   if (key === "a") {
@@ -96,4 +107,4 @@ function keyPressed() {
     keyString = "z";
   }
   return keyString;
-}
+}*/

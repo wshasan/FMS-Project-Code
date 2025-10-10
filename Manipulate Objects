@@ -1,16 +1,48 @@
+let circles = [];
+let maxCircles = 5;
+let circleSize = 75;
+let lifetime = 180;
+
 function setup() {
   createCanvas(400, 400);
-  background(220);
-  circle(random(350), random(350), 75);
-  circle(random(350), random(350), 75);
-  circle(random(350), random(350), 75);
-  circle(random(350), random(350), 75);
-  circle(random(350), random(350), 75);
-  
 }
 
 function draw() {
-  //background(220);
+  background(220);
   
+  if (circles.length < maxCircles && random(1) < 0.02) {
+    let newCircle = {
+      x: random(50, width - 50),
+      y: random(50, height - 50),
+      size: circleSize,
+      lifetime: lifetime
+    };
+    
+    let overlapping = false;
+    for (let c of circles) {
+      let d = dist(newCircle.x, newCircle.y, c.x, c.y);
+      if (d < (newCircle.size / 2 + c.size / 2)) {
+        overlapping = true;
+        break;
+      }
+    }
+    
+    if (!overlapping) {
+      circles.push(newCircle);
+    }
+  }
+  
+  for (let i = circles.length - 1; i >= 0; i--) {
+    let c = circles[i];
+    fill(0, 100, 200);
+    noStroke();
+    circle(c.x, c.y, c.size);
+    
+    c.lifetime--;
+    
+    if (c.lifetime <= 0) {
+      circles.splice(i, 1);
+    }
+  }
 }
 

@@ -1,0 +1,53 @@
+let circles = [];
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  noStroke();
+  // 5 basit daire
+  circles = [];
+  for (let i = 0; i < 5; i++) {
+    circles.push({
+      x: width * (0.2 + i * 0.15),
+      y: height * 0.5,
+      r: min(60, width * 0.08),
+      on: false
+    });
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  // pozisyonları yeniden ayarla
+  for (let i = 0; i < circles.length; i++) {
+    circles[i].x = width * (0.2 + i * 0.15);
+    circles[i].y = height * 0.5;
+    circles[i].r = min(60, width * 0.08);
+  }
+}
+
+function draw() {
+  background(30);
+  for (let c of circles) {
+    fill(c.on ? color(255, 150, 50) : color(150, 200, 255));
+    ellipse(c.x, c.y, c.r * 2);
+  }
+}
+
+// dokunma veya tıklama ile toggle
+function touchStarted() {
+  let tx = touches.length ? touches[0].x : mouseX;
+  let ty = touches.length ? touches[0].y : mouseY;
+  for (let c of circles) {
+    if (dist(tx, ty, c.x, c.y) <= c.r) {
+      c.on = !c.on;
+      break;
+    }
+  }
+  return false; // tarayıcı kaydırmasını engelle
+}
+
+function mousePressed() {
+  // masaüstü için aynı davranış
+  return touchStarted();
+}
+

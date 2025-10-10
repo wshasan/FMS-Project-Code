@@ -1,3 +1,7 @@
+let stringToOutput = "";
+let a = false;
+let b = true;
+
 function setup() {
   createCanvas(400, 400);
 }
@@ -5,24 +9,40 @@ function setup() {
 function draw() {
   background(220);
   
-  //call the keyPressed() function below in your code to return 
-  //keyboard input that is restricted to lowercase and uppercase from a-z
+  //takes keyboard input once per key press if the key pressed is a letter a-z or A-Z (there is currently a bug for letters A-Z).
+  //FIXME: if a key is pressed down while another key is being held down, that key will not be registered (also, this creates a bug with uppercase letters)
+  if (keyIsPressed) {
+    if (b) {
+      a = true;
+      b = false;
+    }
+  }
+  else {
+    b = true;
+  }
+  if (a) {
+    if (keyCode >= 65 && keyCode <= 90) {
+      stringToOutput += key;
+    }
+    a = false;
+  }
+  
   //text(text, x position, y position)
-  text(keyPressed(), 200, 200);
+  text(stringToOutput, 200, 200);
 }
 
+//-- Old Code --
 //ensures that only letter characters a-z (lowercase and uppercase) are read from keyboard input
 //the P5.js built in keyCode variable gives the same character code for lowercase and uppercase letters, but the built in key variable records both, which is why this works for both
-function keyPressed() {
+/*function keyPressed() {
   if (keyCode >= 65 && keyCode <= 90) {
     return key;
   }
   else {
     return "";
   }
-}
+}*/
 
-//-- Old Code --
 //returns the key pressed by the user if it is lowercase from a-z
 //returns empty text (returns nothing) if character pressed is not 
 //lowercase a-z

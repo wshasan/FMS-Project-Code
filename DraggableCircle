@@ -44,3 +44,7 @@ class DraggableCircle {
     this.dragging = false;
   }
 }
+
+
+<script src="DraggableCircle.js"></script>
+<script src="sketch.js"></script>

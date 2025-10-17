@@ -1,6 +1,13 @@
 let stringToOutput = "";
-let a = false;
-let b = true;
+let lastChar = '';
+let a1 = false;
+let b1 = true;
+let a2 = false;
+let b2 = true;
+let a3 = false;
+let b3 = true;
+let a4 = false;
+let b4 = true;
 
 function setup() {
   createCanvas(400, 400);
@@ -9,23 +16,50 @@ function setup() {
 function draw() {
   background(220);
   
-  //takes keyboard input once per key press if the key pressed is a letter a-z or A-Z (there is currently a bug for letters A-Z).
-  //FIXME: if a key is pressed down while another key is being held down, that key will not be registered (also, this creates a bug with uppercase letters)
+  //takes keyboard input once per key press if the key pressed is a letter a-z or A-Z.
+  //NOTE: work on recieving backspace input (uses keyCode, not key), creating a newline after a certain number of keys have been pressed, taking into account keys that disappear after String is shortened from backspaces, creating formatted text, creating text that you can type over, making that text turn red when it doesn't match and green when it is correct
   if (keyIsPressed) {
-    if (b) {
-      a = true;
-      b = false;
+    //only runs once per key press
+    if (b1) {
+      a1 = true; 
+      b1 = false;
+      lastChar = key;
     }
-  }
+    //lets a second key press be registered while 1 
+    //key is being pressed down
+    else if (key != lastChar && b2) {
+      a2 = true;
+      b2 = false;
+      lastChar = key;
+    }
+    else if (key != lastChar && b3) {
+      a3 = true;
+      b3 = false;
+      lastChar = key;
+    }
+    else if (key != lastChar && b4) {
+      a4 = true;
+      b4 = false;
+    }
+  } 
   else {
-    b = true;
+    b1 = true; 
+    b2 = true;
+    b3 = true;
+    b4 = true;
+    //b is true if the last key pressed is not currently being held down
   }
-  if (a) {
-    if (keyCode >= 65 && keyCode <= 90) {
+  if (a1 || a2 || a3 || a4) {
+    if (keyCode >= 65 && keyCode <= 90 || key == ' ') {
       stringToOutput += key;
     }
-    a = false;
+    a1 = false;
+    a2 = false;
+    a3 = false;
+    a4 = false;
   }
+  //the draw function makes these if statements be continuously called.
+
   
   //text(text, x position, y position)
   text(stringToOutput, 200, 200);
@@ -41,91 +75,4 @@ function draw() {
   else {
     return "";
   }
-}*/
-
-//returns the key pressed by the user if it is lowercase from a-z
-//returns empty text (returns nothing) if character pressed is not 
-//lowercase a-z
-/*function keyPressed() {
-  let keyString = "";
-  
-  if (key === "a") {
-    keyString = "a";
-  }
-  else if (key === "b") {
-    keyString = "b";
-  }
-  else if (key === "c") {
-    keyString = "c";
-  }
-  else if (key === "d") {
-    keyString = "d";
-  }
-  else if (key === "e") {
-    keyString = "e";
-  }
-  else if (key === "f") {
-    keyString = "f";
-  }
-  else if (key === "g") {
-    keyString = "g";
-  }
-  else if (key === "h") {
-    keyString = "h";
-  }
-  else if (key === "i") {
-    keyString = "i";
-  }
-  else if (key === "j") {
-    keyString = "j";
-  }
-  else if (key === "k") {
-    keyString = "k";
-  }
-  else if (key === "l") {
-    keyString = "l";
-  }
-  else if (key === "m") {
-    keyString = "m";
-  }
-  else if (key === "n") {
-    keyString = "n";
-  }
-  else if (key === "o") {
-    keyString = "o";
-  }
-  else if (key === "p") {
-    keyString = "p";
-  }
-  else if (key === "q") {
-    keyString = "q";
-  }
-  else if (key === "r") {
-    keyString = "r";
-  }
-  else if (key === "s") {
-    keyString = "s";
-  }
-  else if (key === "t") {
-    keyString = "t";
-  }
-  else if (key === "u") {
-    keyString = "u";
-  }
-  else if (key === "v") {
-    keyString = "v";
-  }
-  else if (key === "w") {
-    keyString = "w";
-  }
-  else if (key === "x") {
-    keyString = "x";
-  }
-  else if (key === "y") {
-    keyString = "y";
-  }
-  else if (key === "z") {
-    keyString = "z";
-  }
-  return keyString;
 }*/

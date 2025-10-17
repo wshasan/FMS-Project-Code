@@ -74,4 +74,4 @@ function mouseReleased() {
 function circlesTLines(){
   //If line is touched=> collor green
   //if line is not touched => collor red
-}
+} https://editor.p5js.org/Onurtekn/full/mYoOk4YAN

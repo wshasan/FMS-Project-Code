@@ -1,0 +1,46 @@
+class DraggableCircle {
+  constructor(x, y, r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+    this.dragging = false;
+    this.rollover = false;
+    this.offsetX = 0;
+    this.offsetY = 0;
+  }
+
+  over() {
+    let d = dist(mouseX, mouseY, this.x, this.y);
+    if (d < this.r) {
+      this.rollover = true;
+    } else {
+      this.rollover = false;
+    }
+  }
+
+  update() {
+    if (this.dragging) {
+      this.x = mouseX + this.offsetX;
+      this.y = mouseY + this.offsetY;
+    }
+  }
+
+  show() {
+    stroke(0);
+    fill(this.dragging ? 50 : this.rollover ? 100 : 175);
+    ellipse(this.x, this.y, this.r * 2, this.r * 2);
+  }
+
+  pressed() {
+    let d = dist(mouseX, mouseY, this.x, this.y);
+    if (d < this.r) {
+      this.dragging = true;
+      this.offsetX = this.x - mouseX;
+      this.offsetY = this.y - mouseY;
+    }
+  }
+
+  released() {
+    this.dragging = false;
+  }
+}

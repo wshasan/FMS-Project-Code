@@ -1,53 +1,77 @@
-let circles = [];
+let circle1;
+let circle2;
+let circle3;
+let circle4;
+let circle5;
+
+
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noStroke();
-  // 5 basit daire
-  circles = [];
-  for (let i = 0; i < 5; i++) {
-    circles.push({
-      x: width * (0.2 + i * 0.15),
-      y: height * 0.5,
-      r: min(60, width * 0.08),
-      on: false
-    });
-  }
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  // pozisyonları yeniden ayarla
-  for (let i = 0; i < circles.length; i++) {
-    circles[i].x = width * (0.2 + i * 0.15);
-    circles[i].y = height * 0.5;
-    circles[i].r = min(60, width * 0.08);
-  }
+  createCanvas(640, 640);
+  circle1 = new DraggableCircle(80,400,40);
+  circle2 = new DraggableCircle(150,160,40);
+  circle3 = new DraggableCircle(300,103,40);
+  circle4 = new DraggableCircle(450,144,40);
+  circle5 = new DraggableCircle(550,276,40);
+  
+  
+  
+  
 }
 
 function draw() {
-  background(30);
-  for (let c of circles) {
-    fill(c.on ? color(255, 150, 50) : color(150, 200, 255));
-    ellipse(c.x, c.y, c.r * 2);
-  }
-}
+  background(255);
+  
+  line1(80, 400, 320, 360);
+  line2(150,160, 320, 360);
+  line3(300,103, 320, 360);
+  line4(450,144, 320, 360);
+  line5(550,276, 320, 360);
+  
+  circle1.over();
+  circle1.update();
+  circle1.show();
+  //print(circle1.y);
+  
+  circle2.over();
+  circle2.update();
+  circle2.show();
+  //print(circle2.y);
+  
+  circle3.over();
+  circle3.update();
+  circle3.show();
+  //print(circle3.y)
+  
+  circle4.over();
+  circle4.update();
+  circle4.show();
+  //print(circle4.y);
+  
+  circle5.over();
+  circle5.update();
+  circle5.show();
+  //print(circle5.y)
 
-// dokunma veya tıklama ile toggle
-function touchStarted() {
-  let tx = touches.length ? touches[0].x : mouseX;
-  let ty = touches.length ? touches[0].y : mouseY;
-  for (let c of circles) {
-    if (dist(tx, ty, c.x, c.y) <= c.r) {
-      c.on = !c.on;
-      break;
-    }
-  }
-  return false; // tarayıcı kaydırmasını engelle
 }
 
 function mousePressed() {
-  // masaüstü için aynı davranış
-  return touchStarted();
+  circle1.pressed();
+  circle2.pressed();
+  circle3.pressed();
+  circle4.pressed();
+  circle5.pressed();
 }
 
+function mouseReleased() {
+  circle1.released();
+  circle2.released();
+  circle3.released();
+  circle4.released();
+  circle5.released();
+}
+
+function circlesTLines(){
+  //If line is touched=> collor green
+  //if line is not touched => collor red
+}

@@ -1,10 +1,15 @@
 let circles = [];
-let maxCircles = 5;
+let maxCircles = 500;
 let circleSize = 75;
-let lifetime = 180;
+let lifetime = 60;
+let totalTime = 30;
+let startTime;
+let gameState = 'playing';
+let score = 0;
 
 function setup() {
   createCanvas(400, 400);
+  startTime = millis();
 }
 
 function draw() {
@@ -42,6 +47,47 @@ function draw() {
     
     if (c.lifetime <= 0) {
       circles.splice(i, 1);
+    }
+  }
+  
+  if(gameState === 'playing'){
+    let elapsedTime = millis() - startTime;
+    let timeRemaining = totalTime - Math.floor(elapsedTime / 1000);
+    textSize(24);
+    fill(0);
+    textAlign(RIGHT, BOTTOM);
+    
+    if(timeRemaining > 0){
+      text(timeRemaining, width - 20, height - 20);
+    }else{
+      gameState = 'gameOver';
+    }
+    
+    textAlign(LEFT, BOTTOM);
+    text(`Score: ${score}`, 20, height - 20);
+    
+    
+  }else if(gameState === 'gameOver'){
+    noLoop();
+    textSize(48);
+    textAlign(CENTER, CENTER);
+    fill(255, 0, 0);
+    text("Game Over!", width/2, height/2);
+  }
+  
+  
+}
+
+function mousePressed(){
+  if(gameState === 'playing'){
+    for(let i = circles.length - 1; i >= 0; i--){
+      let c = circles[i];
+      let d = dist(mouseX, mouseY, c.x, c.y);
+      if(d < c.size/2){
+        circles.splice(i, 1);
+        score++;
+        break;
+      }
     }
   }
 }

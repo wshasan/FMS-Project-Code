@@ -1,5 +1,8 @@
+//NOTE: work on creating a newline after a certain number of keys have been pressed, creating formatted text, creating text that you can type over, making that text turn red when it doesn't match and green when it is correct
+
+let paragraph = "";
 let stringToOutput = "";
-let lastChar = '';
+/*let lastChar = '';
 let a1 = false;
 let b1 = true;
 let a2 = false;
@@ -7,17 +10,38 @@ let b2 = true;
 let a3 = false;
 let b3 = true;
 let a4 = false;
-let b4 = true;
+let b4 = true;*/
+let back1 = false;
+let back2 = true;
 
 function setup() {
   createCanvas(400, 400);
+  paragraph = "dog house is green and red elegantly";
 }
 
 function draw() {
   background(220);
-  
+
+  //text(text, x position, y position)
+  text(stringToOutput, 100, 150);
+}
+
+function keyPressed() {
   //takes keyboard input once per key press if the key pressed is a letter a-z or A-Z.
-  //NOTE: work on recieving backspace input (uses keyCode, not key), creating a newline after a certain number of keys have been pressed, taking into account keys that disappear after String is shortened from backspaces, creating formatted text, creating text that you can type over, making that text turn red when it doesn't match and green when it is correct
+  //the P5.js built in keyCode variable gives the same character code for lowercase and uppercase letters, but the built in key variable records both, which is why this works for both
+  if (keyCode >= 65 && keyCode <= 90 || key == ' ') {
+    console.log(1);
+    stringToOutput += key;
+  } 
+  //if the "backspace" key is pressed, stringToOutput gets shortened by 1 character
+  else if (keyCode === 8) {
+    console.log(2);
+    stringToOutput = stringToOutput.substring(0, stringToOutput.length - 1);
+  }
+}
+
+//-- OLD CODE --
+/*function getInputFromKeyboard() {
   if (keyIsPressed) {
     //only runs once per key press
     if (b1) {
@@ -59,15 +83,10 @@ function draw() {
     a4 = false;
   }
   //the draw function makes these if statements be continuously called.
-
-  
-  //text(text, x position, y position)
-  text(stringToOutput, 200, 200);
-}
+}*/
 
 //-- Old Code --
-//ensures that only letter characters a-z (lowercase and uppercase) are read from keyboard input
-//the P5.js built in keyCode variable gives the same character code for lowercase and uppercase letters, but the built in key variable records both, which is why this works for both
+
 /*function keyPressed() {
   if (keyCode >= 65 && keyCode <= 90) {
     return key;

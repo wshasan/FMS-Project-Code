@@ -1,18 +1,9 @@
-//NOTE: work on creating a newline after a certain number of keys have been pressed, creating formatted text, creating text that you can type over, making that text turn red when it doesn't match and green when it is correct
+//NOTE: work on creating a newline after a certain number of keys have been pressed, creating formatted text, creating text that you can type over, making that text turn red when it doesn't match and green when it is correct. Change stringToOutput into a list of chars. Change to a font for the text where each character has the same width.
 
 let paragraph = "";
 let stringToOutput = "";
-/*let lastChar = '';
-let a1 = false;
-let b1 = true;
-let a2 = false;
-let b2 = true;
-let a3 = false;
-let b3 = true;
-let a4 = false;
-let b4 = true;*/
-let back1 = false;
-let back2 = true;
+let newLineTracker = 0;
+let charsBeforeNewLine = 40;
 
 function setup() {
   createCanvas(400, 400);
@@ -20,8 +11,9 @@ function setup() {
 }
 
 function draw() {
-  background(220);
-
+  background(0);
+  
+  fill('limegreen')
   //text(text, x position, y position)
   text(stringToOutput, 100, 150);
 }
@@ -30,68 +22,18 @@ function keyPressed() {
   //takes keyboard input once per key press if the key pressed is a letter a-z or A-Z.
   //the P5.js built in keyCode variable gives the same character code for lowercase and uppercase letters, but the built in key variable records both, which is why this works for both
   if (keyCode >= 65 && keyCode <= 90 || key == ' ') {
-    console.log(1);
+    if (newLineTracker % charsBeforeNewLine === 0) {
+    stringToOutput += "\n";
+    }
     stringToOutput += key;
+    newLineTracker++;
   } 
   //if the "backspace" key is pressed, stringToOutput gets shortened by 1 character
   else if (keyCode === 8) {
-    console.log(2);
     stringToOutput = stringToOutput.substring(0, stringToOutput.length - 1);
+    newLineTracker--;
+    if (stringToOutput.charAt(stringToOutput.length - 1) === '\n') {
+      stringToOutput = stringToOutput.substring(0, stringToOutput.length - 1);
+    }
   }
 }
-
-//-- OLD CODE --
-/*function getInputFromKeyboard() {
-  if (keyIsPressed) {
-    //only runs once per key press
-    if (b1) {
-      a1 = true; 
-      b1 = false;
-      lastChar = key;
-    }
-    //lets a second key press be registered while 1 
-    //key is being pressed down
-    else if (key != lastChar && b2) {
-      a2 = true;
-      b2 = false;
-      lastChar = key;
-    }
-    else if (key != lastChar && b3) {
-      a3 = true;
-      b3 = false;
-      lastChar = key;
-    }
-    else if (key != lastChar && b4) {
-      a4 = true;
-      b4 = false;
-    }
-  } 
-  else {
-    b1 = true; 
-    b2 = true;
-    b3 = true;
-    b4 = true;
-    //b is true if the last key pressed is not currently being held down
-  }
-  if (a1 || a2 || a3 || a4) {
-    if (keyCode >= 65 && keyCode <= 90 || key == ' ') {
-      stringToOutput += key;
-    }
-    a1 = false;
-    a2 = false;
-    a3 = false;
-    a4 = false;
-  }
-  //the draw function makes these if statements be continuously called.
-}*/
-
-//-- Old Code --
-
-/*function keyPressed() {
-  if (keyCode >= 65 && keyCode <= 90) {
-    return key;
-  }
-  else {
-    return "";
-  }
-}*/

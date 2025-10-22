@@ -1,50 +1,43 @@
 class DraggableCircle {
   constructor(x, y, r) {
-    this.x = x;
-    this.y = y;
-    this.r = r;
+    this.x = x; this.y = y; this.r = r;
     this.dragging = false;
-    this.rollover = false;
-    this.offsetX = 0;
-    this.offsetY = 0;
+    this.touchId = null;
+    this.offsetX = 0; this.offsetY = 0;
   }
 
-  over() {
-    let d = dist(mouseX, mouseY, this.x, this.y);
-    if (d < this.r) {
-      this.rollover = true;
-    } else {
-      this.rollover = false;
+  tryGrabAt(px, py, pid) {
+    const d = dist(px, py, this.x, this.y);
+    if (d < this.r && !this.dragging) {
+      this.dragging = true;
+      this.touchId = pid;
+      this.offsetX = this.x - px;
+      this.offsetY = this.y - py;
+      return true;
     }
+    return false;
   }
 
   update() {
-    if (this.dragging) {
+    if (!this.dragging) return;
+    if (this.touchId === "mouse") {
       this.x = mouseX + this.offsetX;
       this.y = mouseY + this.offsetY;
+    } else {
+      const t = getTouchById(this.touchId);
+      if (t) {
+        this.x = t.x + this.offsetX;
+        this.y = t.y + this.offsetY;
+      }
     }
   }
+
+  releaseIf(pid) { if (this.touchId === pid) this.release(); }
+  release() { this.dragging = false; this.touchId = null; }
 
   show() {
     stroke(0);
-    fill(this.dragging ? 50 : this.rollover ? 100 : 175);
-    ellipse(this.x, this.y, this.r * 2, this.r * 2);
-  }
-
-  pressed() {
-    let d = dist(mouseX, mouseY, this.x, this.y);
-    if (d < this.r) {
-      this.dragging = true;
-      this.offsetX = this.x - mouseX;
-      this.offsetY = this.y - mouseY;
-    }
-  }
-
-  released() {
-    this.dragging = false;
+    fill(this.dragging ? 120 : 200);
+    circle(this.x, this.y, this.r * 2);
   }
 }
-
-
-<script src="DraggableCircle.js"></script>
-<script src="sketch.js"></script>

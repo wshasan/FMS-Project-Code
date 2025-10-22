@@ -1,77 +1,63 @@
-let circle1;
-let circle2;
-let circle3;
-let circle4;
-let circle5;
-
-
+let circles = [];
+const CX = 320, CY = 360;
 
 function setup() {
   createCanvas(640, 640);
-  circle1 = new DraggableCircle(80,400,40);
-  circle2 = new DraggableCircle(150,160,40);
-  circle3 = new DraggableCircle(300,103,40);
-  circle4 = new DraggableCircle(450,144,40);
-  circle5 = new DraggableCircle(550,276,40);
-  
-  
-  
-  
+  if (typeof touchAction === "function") touchAction('none');
+  circles = [
+    new DraggableCircle(80, 400, 40),
+    new DraggableCircle(150, 160, 40),
+    new DraggableCircle(300, 103, 40),
+    new DraggableCircle(450, 144, 40),
+    new DraggableCircle(550, 276, 40)
+  ];
+  for (let c of circles) c.initialDist = dist(c.x, c.y, CX, CY);
 }
 
 function draw() {
   background(255);
-  
-  line1(80, 400, 320, 360);
-  line2(150,160, 320, 360);
-  line3(300,103, 320, 360);
-  line4(450,144, 320, 360);
-  line5(550,276, 320, 360);
-  
-  circle1.over();
-  circle1.update();
-  circle1.show();
-  //print(circle1.y);
-  
-  circle2.over();
-  circle2.update();
-  circle2.show();
-  //print(circle2.y);
-  
-  circle3.over();
-  circle3.update();
-  circle3.show();
-  //print(circle3.y)
-  
-  circle4.over();
-  circle4.update();
-  circle4.show();
-  //print(circle4.y);
-  
-  circle5.over();
-  circle5.update();
-  circle5.show();
-  //print(circle5.y)
-
+  strokeWeight(2);
+  for (let c of circles) {
+    const d = dist(c.x, c.y, CX, CY);
+    stroke(d > c.initialDist ? 'red' : 'green');
+    line(c.x, c.y, CX, CY);
+  }
+  for (let c of circles) {
+    c.update();
+    c.show();
+  }
+  releaseFinishedTouches();
 }
 
 function mousePressed() {
-  circle1.pressed();
-  circle2.pressed();
-  circle3.pressed();
-  circle4.pressed();
-  circle5.pressed();
+  for (let i = circles.length - 1; i >= 0; i--) {
+    if (circles[i].tryGrabAt(mouseX, mouseY, "mouse")) break;
+  }
 }
-
 function mouseReleased() {
-  circle1.released();
-  circle2.released();
-  circle3.released();
-  circle4.released();
-  circle5.released();
+  for (let c of circles) c.releaseIf("mouse");
 }
 
-function circlesTLines(){
-  //If line is touched=> collor green
-  //if line is not touched => collor red
-} https://editor.p5js.org/Onurtekn/full/mYoOk4YAN
+function touchStarted() {
+  for (let t of touches) {
+    for (let i = circles.length - 1; i >= 0; i--) {
+      if (!circles[i].dragging && circles[i].tryGrabAt(t.x, t.y, t.id)) break;
+    }
+  }
+  return false;
+}
+function touchMoved() { return false; }
+function touchEnded() { releaseFinishedTouches(); return false; }
+
+function getTouchById(id) {
+  for (let t of touches) if (t.id === id) return t;
+  return null;
+}
+function releaseFinishedTouches() {
+  for (let c of circles) {
+    if (c.touchId !== null && c.touchId !== "mouse") {
+      const stillActive = getTouchById(c.touchId);
+      if (!stillActive) c.release();
+    }
+  }
+}

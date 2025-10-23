@@ -1,36 +1,60 @@
-//NOTE: work on creating a newline after a certain number of keys have been pressed, creating formatted text, creating text that you can type over, making that text turn red when it doesn't match and green when it is correct. Change stringToOutput into a list of chars. Change to a font for the text where each character has the same width.
+//NOTE: work on creating formatted text, creating text that you can type over, making that text turn red when it doesn't match and green when it is correct. Change stringToOutput into a list of chars. 
 
 let paragraph = "";
 let stringToOutput = "";
+//let charArray = [];
 let newLineTracker = 0;
-let charsBeforeNewLine = 40;
+let sizeOfText = 20;
+let charsBeforeNewLine = 20;
+let smallestLength = 0;
+let font;
+
+function preload() {
+  font = loadFont("Inconsolata.otf");
+}
 
 function setup() {
   createCanvas(400, 400);
-  paragraph = "dog house is green and red elegantly";
+  textFont(font);
+  textSize(sizeOfText);
+  paragraph = "abcaaaaaaaaaaaaaaaa";
 }
 
 function draw() {
   background(0);
+  //can use TextWidth() function. Takes text and returns its width.
   
-  fill('limegreen')
-  //text(text, x position, y position)
+  if (stringToOutput.length <= paragraph.length) {
+    smallestLength = stringToOutput.length;
+  } else {
+    smallestLength = paragraph.length;
+  }
+  if (stringToOutput.substring(0, smallestLength) === paragraph.substring(0, smallestLength)) {
+    fill("limegreen");
+  } else {
+    fill("red");
+  }
   text(stringToOutput, 100, 150);
+  //text(text, x position, y position)
+  //for (int i = 0; )
 }
 
 function keyPressed() {
   //takes keyboard input once per key press if the key pressed is a letter a-z or A-Z.
   //the P5.js built in keyCode variable gives the same character code for lowercase and uppercase letters, but the built in key variable records both, which is why this works for both
   if (keyCode >= 65 && keyCode <= 90 || key == ' ') {
-    if (newLineTracker % charsBeforeNewLine === 0) {
+    if (newLineTracker % charsBeforeNewLine === 0 && newLineTracker != 0) {
     stringToOutput += "\n";
+    //charArray.push("\n");
     }
     stringToOutput += key;
+    //charArray.push(key);
     newLineTracker++;
   } 
   //if the "backspace" key is pressed, stringToOutput gets shortened by 1 character
   else if (keyCode === 8) {
     stringToOutput = stringToOutput.substring(0, stringToOutput.length - 1);
+    //charArray.splice(-1, 1);
     newLineTracker--;
     if (stringToOutput.charAt(stringToOutput.length - 1) === '\n') {
       stringToOutput = stringToOutput.substring(0, stringToOutput.length - 1);

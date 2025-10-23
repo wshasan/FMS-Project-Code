@@ -1,6 +1,7 @@
-//NOTE: work on creating text that you can type over,
+//NOTE: work on making it so that words are not cut in half between lines and on making a results screen
 let charArray = [];
 let paragraphArray = [];
+let character = "";
 let xInitial = 100;
 let yInitial = 150;
 let dx = 0;
@@ -10,7 +11,7 @@ let sizeOfText = 20;
 let charsBeforeNextLine = 20;
 let font;
 
-let paragraph = "abcaaaa aaaaaaaaaaaalsafhgfljdsafhgjlkdsfhg";
+let paragraph = "The brown fox ate the red and blue berries in the afternoon";
 for (let i = 0; i < paragraph.length; i++) {
   paragraphArray.push(paragraph.charAt(i));
 }
@@ -28,18 +29,24 @@ function setup() {
 function draw() {
   background(240);
   
-  for (let i = 0; i < charArray.length; i++) {
+  for (let i = 0; i < paragraphArray.length; i++) {
     dx = textWidth(" ") * (i % charsBeforeNextLine);
     if (i / charsBeforeNextLine >= 1) {
       numNewLines = Math.floor(i / charsBeforeNextLine);
     }
     dy = sizeOfText * numNewLines;
-    if (charArray[i].charAt(0) === paragraphArray[i]) {
-      fill("limegreen");
+    if (i <= charArray.length - 1) {
+      if (charArray[i].charAt(0) === paragraphArray[i]) {
+        fill("limegreen");
+      } else {
+        fill("red");
+      }
+      character = charArray[i];
     } else {
-      fill("red");
+      fill("grey");
+      character = paragraphArray[i];
     }
-    text(charArray[i], xInitial + dx, yInitial + dy);
+    text(character, xInitial + dx, yInitial + dy);
   }
   numNewLines = 0;
 }

@@ -1,4 +1,6 @@
 //NOTE: work on making it so that words are not cut in half between lines and on making a results screen
+//maybe make text prompt say positive or supportive stuff
+//semi-transparant picture in background- paired with text
 let charArray = [];
 let paragraphArray = [];
 let character = "";

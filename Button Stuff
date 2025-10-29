@@ -1,0 +1,17 @@
+let color = 220;
+
+function setup() {
+  createCanvas(400, 400);
+  background(color);
+}
+
+function draw() {
+  let button1 = createButton("test");
+  button1.position(50, 50);
+  button1.mousePressed(changeColorCanvas);
+}
+
+function changeColorCanvas() {
+  color = random(255);
+  background(color);
+}

@@ -9,6 +9,7 @@ function setup() {
 function draw() {
   button1 = createButton("test");
   button1.position(width / 2, height / 2);
+  button1.size(width / 8, height / 16);
   button1.mousePressed(changeColorCanvas);
 }
 

@@ -1,42 +1,72 @@
+let homeBackgroundColor = 220;
+
 let button1;
 let button2;
 let button3;
 let button4;
+let backButton;
 
 function setup() {
   createCanvas(400, 400);
-  background(220);
+  background(homeBackgroundColor);
   
   button1 = createButton("button 1");
   button1.position(width / 4, height / 8);
   button1.size(width / 8, height / 16);
-  button1.mousePressed(doSomething);
+  button1.mousePressed(enterExercise);
   
   button2 = createButton("button 2");
   button2.position(width / 4, height / 3.5);
   button2.size(width / 8, height / 16);
-  button2.mousePressed(doSomething);
+  button2.mousePressed(enterExercise);
   
   button3 = createButton("button 3");
   button3.position(width / 4, height / 2);
   button3.size(width / 8, height / 16);
-  button3.mousePressed(doSomething);
+  button3.mousePressed(enterExercise);
   
   button4 = createButton("button 4");
   button4.position(width / 4, height / 1.5);
   button4.size(width / 8, height / 16);
-  button4.mousePressed(doSomething);
+  button4.mousePressed(enterExercise);
+  
+  backButton = createButton("return");
+  backButton.position(width / 8, height - height / 8);
+  backButton.size(width / 8, height / 16);
+  backButton.mousePressed(showHomePage);
+  backButton.hide();
   //buttons should actually go in setup. They create a lot of lag and take up a lot of processing power if there are multiple in the draw() function
 }
 
-function doSomething() {
-  console.log("a");
-  hideButtons();
+function draw() {
+  
 }
 
-function hideButtons() {
+function enterExercise() {
+  console.log("a");
+  hideHomeButtons();
+  backButton.show();
+  loop();
+}
+
+function showHomePage() {
+  console.log("b");
+  noLoop();
+  backButton.hide();
+  background(homeBackgroundColor);
+  showHomeButtons();
+}
+
+function hideHomeButtons() {
   button1.hide();
   button2.hide();
   button3.hide();
   button4.hide();
+}
+
+function showHomeButtons() {
+  button1.show();
+  button2.show();
+  button3.show();
+  button4.show();
 }

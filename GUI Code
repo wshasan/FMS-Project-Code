@@ -38,7 +38,7 @@ function setup() {
   backButton.hide();
   //buttons should actually go in setup. They create a lot of lag and take up a lot of processing power if there are multiple in the draw() function
   
-  noLoop(); //prevents the draw() function from being called until the loop() function is called (the reason using this is so the draw function isn't running when we don't need it to, but otherwise we don't really need this function at all)
+  noLoop(); //prevents the draw() function from being called until the loop() function is called (the reason I'm using this is so the draw function isn't running when we don't need it to, but otherwise we don't really need this function at all)
 }
 
 function draw() {

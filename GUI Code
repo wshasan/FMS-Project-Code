@@ -1,4 +1,5 @@
 let homeBackgroundColor = 220;
+let exerciseToEnter = 0;
 
 let button1;
 let button2;
@@ -13,22 +14,22 @@ function setup() {
   button1 = createButton("button 1");
   button1.position(width / 4, height / 8);
   button1.size(width / 8, height / 16);
-  button1.mousePressed(enterExercise);
+  button1.mousePressed(enterExercise1);
   
   button2 = createButton("button 2");
   button2.position(width / 4, height / 3.5);
   button2.size(width / 8, height / 16);
-  button2.mousePressed(enterExercise);
+  button2.mousePressed(enterExercise2);
   
   button3 = createButton("button 3");
   button3.position(width / 4, height / 2);
   button3.size(width / 8, height / 16);
-  button3.mousePressed(enterExercise);
+  button3.mousePressed(enterExercise3);
   
   button4 = createButton("button 4");
   button4.position(width / 4, height / 1.5);
   button4.size(width / 8, height / 16);
-  button4.mousePressed(enterExercise);
+  button4.mousePressed(enterExercise4);
   
   backButton = createButton("return");
   backButton.position(width / 8, height - height / 8);
@@ -36,22 +37,62 @@ function setup() {
   backButton.mousePressed(showHomePage);
   backButton.hide();
   //buttons should actually go in setup. They create a lot of lag and take up a lot of processing power if there are multiple in the draw() function
+  
+  noLoop(); //prevents the draw() function from being called until the loop() function is called (the reason using this is so the draw function isn't running when we don't need it to, but otherwise we don't really need this function at all)
 }
 
 function draw() {
-  
+  if (exerciseToEnter === 1) {
+    console.log("exercise 1 does thing");
+    backButton.mousePressed(showHomePage);
+  } else if (exerciseToEnter === 2) {
+    console.log("exercise 2 does thing");
+    backButton.mousePressed(showHomePage);
+  } else if (exerciseToEnter === 3) {
+    console.log("exercise 3 does thing");
+    backButton.mousePressed(showHomePage);
+  } else if (exerciseToEnter === 4) {
+    console.log("exercise 4 does thing");
+    backButton.mousePressed(showHomePage);
+  }
 }
 
-function enterExercise() {
-  console.log("a");
+function enterExercise1() {
+  console.log("1");
   hideHomeButtons();
   backButton.show();
+  exerciseToEnter = 1;
+  loop();
+}
+
+function enterExercise2() {
+  console.log("2");
+  hideHomeButtons();
+  backButton.show();
+  exerciseToEnter = 2;
+  loop();
+}
+
+function enterExercise3() {
+  console.log("3");
+  hideHomeButtons();
+  backButton.show();
+  exerciseToEnter = 3;
+  loop();
+}
+
+function enterExercise4() {
+  console.log("4");
+  hideHomeButtons();
+  backButton.show();
+  exerciseToEnter = 4;
   loop();
 }
 
 function showHomePage() {
-  console.log("b");
+  exerciseToEnter = 0;
   noLoop();
+  console.log("h");
   backButton.hide();
   background(homeBackgroundColor);
   showHomeButtons();

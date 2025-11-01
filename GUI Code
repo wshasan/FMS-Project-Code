@@ -1,17 +1,42 @@
-let color = 220;
+let button1;
+let button2;
+let button3;
+let button4;
 
 function setup() {
   createCanvas(400, 400);
-  background(color);
+  background(220);
+  
+  button1 = createButton("button 1");
+  button1.position(width / 4, height / 8);
+  button1.size(width / 8, height / 16);
+  button1.mousePressed(doSomething);
+  
+  button2 = createButton("button 2");
+  button2.position(width / 4, height / 3.5);
+  button2.size(width / 8, height / 16);
+  button2.mousePressed(doSomething);
+  
+  button3 = createButton("button 3");
+  button3.position(width / 4, height / 2);
+  button3.size(width / 8, height / 16);
+  button3.mousePressed(doSomething);
+  
+  button4 = createButton("button 4");
+  button4.position(width / 4, height / 1.5);
+  button4.size(width / 8, height / 16);
+  button4.mousePressed(doSomething);
+  //buttons should actually go in setup. They create a lot of lag and take up a lot of processing power if there are multiple in the draw() function
 }
 
-function draw() {
-  let button1 = createButton("test");
-  button1.position(width / 2, height / 2);
-  button1.mousePressed(changeColorCanvas);
+function doSomething() {
+  console.log("a");
+  hideButtons();
 }
 
-function changeColorCanvas() {
-  color = random(255);
-  background(color);
+function hideButtons() {
+  button1.hide();
+  button2.hide();
+  button3.hide();
+  button4.hide();
 }

@@ -7,6 +7,29 @@ let button3;
 let button4;
 let backButton;
 
+//global variables for exercise 2 (along with initializing an array with a string)
+let charArray = [];
+let paragraphArray = [];
+let character = "";
+let xInitial = 100;
+let yInitial = 150;
+let dx = 0;
+let dy = 0;
+let numNewLines = 0;
+let sizeOfText = 20;
+let charsBeforeNextLine = 20;
+let font;
+let setup2;
+
+let paragraph = "The brown fox ate the red and blue berries in the afternoon";
+for (let i = 0; i < paragraph.length; i++) {
+  paragraphArray.push(paragraph.charAt(i));
+}
+
+function preload() {
+  font = loadFont("Inconsolata.otf");
+}
+
 function setup() {
   createCanvas(540, 440);
   background(homeBackgroundColor);
@@ -44,7 +67,32 @@ function draw() {
   if (exerciseToEnter === 1) {
     console.log("exercise 1 does thing");
   } else if (exerciseToEnter === 2) {
-    console.log("exercise 2 does thing");
+    if (setup2) {
+      textFont(font);
+      background(240);
+    }
+    
+    background(240);
+    for (let i = 0; i < paragraphArray.length; i++) {
+      dx = textWidth(" ") * (i % charsBeforeNextLine);
+      if (i / charsBeforeNextLine >= 1) {
+        numNewLines = Math.floor(i / charsBeforeNextLine);
+      }
+      dy = sizeOfText * numNewLines;
+      if (i <= charArray.length - 1) {
+        if (charArray[i].charAt(0) === paragraphArray[i]) {
+          fill("limegreen");
+        } else {
+          fill("red");
+        }
+        character = charArray[i];
+      } else {
+        fill("grey");
+        character = paragraphArray[i];
+      }
+      text(character, xInitial + dx, yInitial + dy);
+    }
+    numNewLines = 0;
   } else if (exerciseToEnter === 3) {
     console.log("exercise 3 does thing");
   } else if (exerciseToEnter === 4) {
@@ -56,35 +104,8 @@ function drawHomeScreenDetails() {
   fill("black");
   rect(width / 27 * 4, height / 11, width / 36, height / 11 * 7);
   rect(width / 27 * 23, height / 11, -width / 36, height / 11 * 7);
-  //rect(width / 27 * 23, height / 11, width / 36 * 20, height / );
-}
-
-function enterExercise1() {
-  console.log("1");
-  hideHomeButtons();
-  backButton.show();
-  exerciseToEnter = 1;
-}
-
-function enterExercise2() {
-  console.log("2");
-  hideHomeButtons();
-  backButton.show();
-  exerciseToEnter = 2;
-}
-
-function enterExercise3() {
-  console.log("3");
-  hideHomeButtons();
-  backButton.show();
-  exerciseToEnter = 3;
-}
-
-function enterExercise4() {
-  console.log("4");
-  hideHomeButtons();
-  backButton.show();
-  exerciseToEnter = 4;
+  rect(width / 27 * 4, height / 11, width / 36 * 25, height / 30);
+  rect(width / 27 * 4, (height / 11 * 8) - (height / 30), width / 36 * 25, height / 30);
 }
 
 function showHomeScreen() {
@@ -108,4 +129,42 @@ function showHomeButtons() {
   button2.show();
   button3.show();
   button4.show();
+}
+
+function enterExercise1() {
+  console.log("1");
+  hideHomeButtons();
+  backButton.show();
+  exerciseToEnter = 1;
+}
+
+function enterExercise2() {
+  console.log("2");
+  hideHomeButtons();
+  backButton.show();
+  setup2 = true; //add something like this
+  exerciseToEnter = 2;
+}
+
+function keyPressed() {
+  if (keyCode >= 65 && keyCode <= 90 || key == ' ') {
+    charArray.push(key);
+  } 
+  else if (keyCode === 8) {
+    charArray.splice(-1, 1);
+  }
+}
+
+function enterExercise3() {
+  console.log("3");
+  hideHomeButtons();
+  backButton.show();
+  exerciseToEnter = 3;
+}
+
+function enterExercise4() {
+  console.log("4");
+  hideHomeButtons();
+  backButton.show();
+  exerciseToEnter = 4;
 }

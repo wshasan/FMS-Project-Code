@@ -1,5 +1,5 @@
 let circles = [];
-let maxCircles = 500;
+let maxCircles = 50;
 let circleSize = 75;
 let lifetime = 60;
 let totalTime = 30;
@@ -8,82 +8,100 @@ let gameState = 'playing';
 let score = 0;
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(1080, 880);
   startTime = millis();
 }
 
 function draw() {
   background(220);
-  
-  if (circles.length < maxCircles && random(1) < 0.02) {
-    let newCircle = {
-      x: random(50, width - 50),
-      y: random(50, height - 50),
-      size: circleSize,
-      lifetime: lifetime
-    };
-    
-    let overlapping = false;
-    for (let c of circles) {
-      let d = dist(newCircle.x, newCircle.y, c.x, c.y);
-      if (d < (newCircle.size / 2 + c.size / 2)) {
-        overlapping = true;
-        break;
+
+  if (gameState === 'playing') {
+    if (circles.length < maxCircles && random(1) < 0.02) {
+      let newCircle = {
+        x: random(50, width - 50),
+        y: random(50, height - 50),
+        size: circleSize,
+        lifetime: lifetime
+      };
+
+      let overlapping = false;
+      for (let c of circles) {
+        let d = dist(newCircle.x, newCircle.y, c.x, c.y);
+        if (d < (newCircle.size / 2 + c.size / 2)) {
+          overlapping = true;
+          break;
+        }
       }
+
+      if (!overlapping) circles.push(newCircle);
     }
-    
-    if (!overlapping) {
-      circles.push(newCircle);
+
+    for (let i = circles.length - 1; i >= 0; i--) {
+      let c = circles[i];
+      fill(0, 100, 200);
+      noStroke();
+      circle(c.x, c.y, c.size);
+
+      c.lifetime--;
+      if (c.lifetime <= 0) circles.splice(i, 1);
     }
-  }
-  
-  for (let i = circles.length - 1; i >= 0; i--) {
-    let c = circles[i];
-    fill(0, 100, 200);
-    noStroke();
-    circle(c.x, c.y, c.size);
-    
-    c.lifetime--;
-    
-    if (c.lifetime <= 0) {
-      circles.splice(i, 1);
-    }
-  }
-  
-  if(gameState === 'playing'){
+
     let elapsedTime = millis() - startTime;
     let timeRemaining = totalTime - Math.floor(elapsedTime / 1000);
+
     textSize(24);
     fill(0);
     textAlign(RIGHT, BOTTOM);
-    
-    if(timeRemaining > 0){
+    if (timeRemaining > 0) {
       text(timeRemaining, width - 20, height - 20);
-    }else{
+    } else {
       gameState = 'gameOver';
     }
-    
+
     textAlign(LEFT, BOTTOM);
     text(`Score: ${score}`, 20, height - 20);
-    
-    
-  }else if(gameState === 'gameOver'){
-    noLoop();
+
+  } else if (gameState === 'gameOver') {
     textSize(48);
     textAlign(CENTER, CENTER);
     fill(255, 0, 0);
-    text("Game Over!", width/2, height/2);
+    text("Nice Job!", width / 2, height / 2 - 200);
+
+
+    fill(0, 0, 255);
+    noStroke();
+
+    let faceCenterX = width / 2;
+    let faceCenterY = height / 2 + 100;
+    let eyeOffsetX = 120;
+    let eyeOffsetY = -100;
+
+
+    circle(faceCenterX - eyeOffsetX, faceCenterY + eyeOffsetY, 60);
+    circle(faceCenterX + eyeOffsetX, faceCenterY + eyeOffsetY, 60);
+
+    let mouthDots = 9;
+    let mouthWidth = 400;
+    let mouthHeight = 120;
+    let mouthY = faceCenterY + 80;
+
+    for (let i = 0; i < mouthDots; i++) {
+      let t = map(i, 0, mouthDots - 1, -1, 1);
+      let x = faceCenterX + t * (mouthWidth / 2);
+      let y = mouthY - (t * t) * mouthHeight;
+      circle(x, y, 60);
+    }
+
+    noLoop();
   }
-  
-  
 }
 
-function mousePressed(){
-  if(gameState === 'playing'){
-    for(let i = circles.length - 1; i >= 0; i--){
+function mousePressed() {
+  if (gameState === 'playing') {
+    for (let i = circles.length - 1; i >= 0; i--) {
       let c = circles[i];
       let d = dist(mouseX, mouseY, c.x, c.y);
-      if(d < c.size/2){
+      if (d < c.size / 2) {
         circles.splice(i, 1);
         score++;
         break;
@@ -91,4 +109,5 @@ function mousePressed(){
     }
   }
 }
+
 

@@ -8,53 +8,55 @@ let button4;
 let backButton;
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(540, 440);
   background(homeBackgroundColor);
+  drawHomeScreenDetails();
   
-  button1 = createButton("button 1");
+  button1 = createButton("Button 1");
   button1.position(width / 4, height / 8);
   button1.size(width / 8, height / 16);
   button1.mousePressed(enterExercise1);
   
-  button2 = createButton("button 2");
+  button2 = createButton("Button 2");
   button2.position(width / 4, height / 3.5);
   button2.size(width / 8, height / 16);
   button2.mousePressed(enterExercise2);
   
-  button3 = createButton("button 3");
+  button3 = createButton("Button 3");
   button3.position(width / 4, height / 2);
   button3.size(width / 8, height / 16);
   button3.mousePressed(enterExercise3);
   
-  button4 = createButton("button 4");
+  button4 = createButton("Button 4");
   button4.position(width / 4, height / 1.5);
   button4.size(width / 8, height / 16);
   button4.mousePressed(enterExercise4);
   
-  backButton = createButton("return");
+  backButton = createButton("Return");
   backButton.position(width / 8, height - height / 8);
   backButton.size(width / 8, height / 16);
-  backButton.mousePressed(showHomePage);
+  backButton.mousePressed(showHomeScreen);
   backButton.hide();
   //buttons should actually go in setup. They create a lot of lag and take up a lot of processing power if there are multiple in the draw() function
-  
-  noLoop(); //prevents the draw() function from being called until the loop() function is called (the reason I'm using this is so the draw function isn't running when we don't need it to, but otherwise we don't really need this function at all)
 }
 
 function draw() {
   if (exerciseToEnter === 1) {
     console.log("exercise 1 does thing");
-    backButton.mousePressed(showHomePage);
   } else if (exerciseToEnter === 2) {
     console.log("exercise 2 does thing");
-    backButton.mousePressed(showHomePage);
   } else if (exerciseToEnter === 3) {
     console.log("exercise 3 does thing");
-    backButton.mousePressed(showHomePage);
   } else if (exerciseToEnter === 4) {
     console.log("exercise 4 does thing");
-    backButton.mousePressed(showHomePage);
   }
+}
+
+function drawHomeScreenDetails() {
+  fill("black");
+  rect(width / 27 * 4, height / 11, width / 36, height / 11 * 7);
+  rect(width / 27 * 23, height / 11, -width / 36, height / 11 * 7);
+  //rect(width / 27 * 23, height / 11, width / 36 * 20, height / );
 }
 
 function enterExercise1() {
@@ -62,7 +64,6 @@ function enterExercise1() {
   hideHomeButtons();
   backButton.show();
   exerciseToEnter = 1;
-  loop();
 }
 
 function enterExercise2() {
@@ -70,7 +71,6 @@ function enterExercise2() {
   hideHomeButtons();
   backButton.show();
   exerciseToEnter = 2;
-  loop();
 }
 
 function enterExercise3() {
@@ -78,7 +78,6 @@ function enterExercise3() {
   hideHomeButtons();
   backButton.show();
   exerciseToEnter = 3;
-  loop();
 }
 
 function enterExercise4() {
@@ -86,15 +85,14 @@ function enterExercise4() {
   hideHomeButtons();
   backButton.show();
   exerciseToEnter = 4;
-  loop();
 }
 
-function showHomePage() {
+function showHomeScreen() {
   exerciseToEnter = 0;
-  noLoop();
   console.log("h");
   backButton.hide();
   background(homeBackgroundColor);
+  drawHomeScreenDetails();
   showHomeButtons();
 }
 

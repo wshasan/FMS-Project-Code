@@ -56,7 +56,7 @@ function setup() {
   button4.mousePressed(enterExercise4);
   
   backButton = createButton("Return");
-  backButton.position(width / 8, height - height / 8);
+  backButton.position(0, height - height / 16);
   backButton.size(width / 8, height / 16);
   backButton.mousePressed(showHomeScreen);
   backButton.hide();
@@ -95,8 +95,10 @@ function drawHomeScreenDetails() {
   strokeWeight(5);
   line(width * .375, height, width * .42, height * .9386);
   line(width * .625, height, width * .58, height * .9386);
-  
-  text("[Title of App]", width * .45, height * .20);
+  fill("orange");
+  textSize(width *.07);
+  textFont("default"); //2 options - use default or monospace font for title
+  text("[Title of App]", width * .33, height * .3);
 }
 
 function showHomeScreen() {

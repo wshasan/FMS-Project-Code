@@ -1,13 +1,6 @@
-let homeBackgroundColor = 255;
-let exerciseToEnter = 0;
-
-let button1;
-let button2;
-let button3;
-let button4;
-let backButton;
-
-//global variables for exercise 2 (along with initializing an array with a string)
+//NOTE: work on making it so that words are not cut in half between lines and on making a results screen
+//maybe make text prompt say positive or supportive stuff
+//semi-transparant picture in background- paired with text
 let charArray = [];
 let paragraphArray = [];
 let character = "";
@@ -16,9 +9,9 @@ let yInitial = 150;
 let dx = 0;
 let dy = 0;
 let numNewLines = 0;
+let sizeOfText = 20;
 let charsBeforeNextLine = 20;
 let font;
-let setup2;
 
 let paragraph = "The brown fox ate the red and blue berries in the afternoon";
 for (let i = 0; i < paragraph.length; i++) {
@@ -30,134 +23,32 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(540, 440);
-  background(homeBackgroundColor);
-  drawHomeScreenDetails();
-  
-  button1 = createButton("Exercise 1");
-  button1.position(width *.16, height * .5);
-  button1.size(width * .3, height * .1667);
-  button1.mousePressed(enterExercise1);
-  
-  button2 = createButton("Exercise 2");
-  button2.position(width *.54, height * .5);
-  button2.size(width * .3, height * .1667);
-  button2.mousePressed(enterExercise2);
-  
-  button3 = createButton("Exercise 3");
-  button3.position(width * .16, height * .7);
-  button3.size(width *.3, height * .1667);
-  button3.mousePressed(enterExercise3);
-  
-  button4 = createButton("Exercise 4");
-  button4.position(width *.54, height * .7);
-  button4.size(width * .3, height * .1667);
-  button4.mousePressed(enterExercise4);
-  
-  backButton = createButton("Return");
-  backButton.position(0, height - height / 16);
-  backButton.size(width / 8, height / 16);
-  backButton.mousePressed(showHomeScreen);
-  backButton.hide();
-  //buttons should actually go in setup. They create a lot of lag and take up a lot of processing power if there are multiple in the draw() function
+  createCanvas(400, 400);
+  textFont(font);
+  textSize(sizeOfText);
 }
 
 function draw() {
-  if (exerciseToEnter === 1) {
-    console.log("exercise 1 does thing");
-  } else if (exerciseToEnter === 2) {
-    if (setup2) {
-      textFont(font);
-      background(240);
-      setup2 = false;
-    }
-    drawExercise2();
-  } else if (exerciseToEnter === 3) {
-    console.log("exercise 3 does thing");
-  } else if (exerciseToEnter === 4) {
-    console.log("exercise 4 does thing");
-  }
-}
-
-function drawHomeScreenDetails() {
-  /*rect(width / 27 * 4, height / 11, width / 36, height / 11 * 7);
-  rect(width / 27 * 23, height / 11, -width / 36, height / 11 * 7);
-  rect(width / 27 * 4, height / 11, width / 36 * 25, height / 30);
-  rect(width / 27 * 4, (height / 11 * 8) - (height / 30), width / 36 * 25, height / 30);*/
-  fill("grey");
-  rect(width * .05, height * .0614, width * .9, height * .8772);
-  fill("black")
-  rect(width * .05, height * .0614, width * .02, height * .8772);
-  rect((width * .95 - width * .02), height * .0614, width * .02, height * .8772);
-  rect(width * .05, height * .0614, width * .9, height * .0245);
-  rect(width * .05, height * .9386 - height * .0245, width * .9, height * .0245);
-  strokeWeight(5);
-  line(width * .375, height, width * .42, height * .9386);
-  line(width * .625, height, width * .58, height * .9386);
-  fill("orange");
-  textSize(width *.07);
-  textFont("default"); //2 options - use default or monospace font for title
-  text("[Title of App]", width * .33, height * .3);
-}
-
-function showHomeScreen() {
-  exerciseToEnter = 0;
-  console.log("h");
-  backButton.hide();
-  background(homeBackgroundColor);
-  drawHomeScreenDetails();
-  showHomeButtons();
-}
-
-function hideHomeButtons() {
-  button1.hide();
-  button2.hide();
-  button3.hide();
-  button4.hide();
-}
-
-function showHomeButtons() {
-  button1.show();
-  button2.show();
-  button3.show();
-  button4.show();
-}
-
-function enterExercise1() {
-  console.log("1");
-  hideHomeButtons();
-  backButton.show();
-  exerciseToEnter = 1;
-}
-
-function enterExercise2() {
-  console.log("2");
-  hideHomeButtons();
-  backButton.show();
-  setup2 = true; //add something like this
-  exerciseToEnter = 2;
-}
-
-function drawExercise2() {
   background(240);
+  
   for (let i = 0; i < paragraphArray.length; i++) {
     dx = textWidth(" ") * (i % charsBeforeNextLine);
     if (i / charsBeforeNextLine >= 1) {
       numNewLines = Math.floor(i / charsBeforeNextLine);
     }
-  dy = textWidth(" ") * 1.5 * numNewLines;
-  if (i <= charArray.length - 1) {
-    if (charArray[i].charAt(0) === paragraphArray[i]) {
-      fill("limegreen");
+    dy = sizeOfText * numNewLines;
+    if (i <= charArray.length - 1) {
+      if (charArray[i].charAt(0) === paragraphArray[i]) {
+        fill("limegreen");
+      } else {
+        fill("red");
+      }
+      character = charArray[i];
     } else {
-      fill("red");
+      fill("grey");
+      character = paragraphArray[i];
     }
-    character = charArray[i];
-  } else {
-    fill("grey");
-    character = paragraphArray[i];
-  }
-  text(character, xInitial + dx, yInitial + dy);
+    text(character, xInitial + dx, yInitial + dy);
   }
   numNewLines = 0;
 }
@@ -169,18 +60,4 @@ function keyPressed() {
   else if (keyCode === 8) {
     charArray.splice(-1, 1);
   }
-}
-
-function enterExercise3() {
-  console.log("3");
-  hideHomeButtons();
-  backButton.show();
-  exerciseToEnter = 3;
-}
-
-function enterExercise4() {
-  console.log("4");
-  hideHomeButtons();
-  backButton.show();
-  exerciseToEnter = 4;
 }

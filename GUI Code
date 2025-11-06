@@ -1,4 +1,4 @@
-let homeBackgroundColor = 220;
+let homeBackgroundColor = 255;
 let exerciseToEnter = 0;
 
 let button1;
@@ -35,24 +35,24 @@ function setup() {
   background(homeBackgroundColor);
   drawHomeScreenDetails();
   
-  button1 = createButton("Button 1");
-  button1.position(width / 4, height / 8);
-  button1.size(width / 8, height / 16);
+  button1 = createButton("Exercise 1");
+  button1.position(width *.16, height * .5);
+  button1.size(width * .3, height * .1667);
   button1.mousePressed(enterExercise1);
   
-  button2 = createButton("Button 2");
-  button2.position(width / 4, height / 3.5);
-  button2.size(width / 8, height / 16);
+  button2 = createButton("Exercise 2");
+  button2.position(width *.54, height * .5);
+  button2.size(width * .3, height * .1667);
   button2.mousePressed(enterExercise2);
   
-  button3 = createButton("Button 3");
-  button3.position(width / 4, height / 2);
-  button3.size(width / 8, height / 16);
+  button3 = createButton("Exercise 3");
+  button3.position(width * .16, height * .7);
+  button3.size(width *.3, height * .1667);
   button3.mousePressed(enterExercise3);
   
-  button4 = createButton("Button 4");
-  button4.position(width / 4, height / 1.5);
-  button4.size(width / 8, height / 16);
+  button4 = createButton("Exercise 4");
+  button4.position(width *.54, height * .7);
+  button4.size(width * .3, height * .1667);
   button4.mousePressed(enterExercise4);
   
   backButton = createButton("Return");
@@ -70,29 +70,9 @@ function draw() {
     if (setup2) {
       textFont(font);
       background(240);
+      setup2 = false;
     }
-    
-    background(240);
-    for (let i = 0; i < paragraphArray.length; i++) {
-      dx = textWidth(" ") * (i % charsBeforeNextLine);
-      if (i / charsBeforeNextLine >= 1) {
-        numNewLines = Math.floor(i / charsBeforeNextLine);
-      }
-      dy = sizeOfText * numNewLines;
-      if (i <= charArray.length - 1) {
-        if (charArray[i].charAt(0) === paragraphArray[i]) {
-          fill("limegreen");
-        } else {
-          fill("red");
-        }
-        character = charArray[i];
-      } else {
-        fill("grey");
-        character = paragraphArray[i];
-      }
-      text(character, xInitial + dx, yInitial + dy);
-    }
-    numNewLines = 0;
+    drawExercise2();
   } else if (exerciseToEnter === 3) {
     console.log("exercise 3 does thing");
   } else if (exerciseToEnter === 4) {
@@ -101,11 +81,22 @@ function draw() {
 }
 
 function drawHomeScreenDetails() {
-  fill("black");
-  rect(width / 27 * 4, height / 11, width / 36, height / 11 * 7);
+  /*rect(width / 27 * 4, height / 11, width / 36, height / 11 * 7);
   rect(width / 27 * 23, height / 11, -width / 36, height / 11 * 7);
   rect(width / 27 * 4, height / 11, width / 36 * 25, height / 30);
-  rect(width / 27 * 4, (height / 11 * 8) - (height / 30), width / 36 * 25, height / 30);
+  rect(width / 27 * 4, (height / 11 * 8) - (height / 30), width / 36 * 25, height / 30);*/
+  fill("grey");
+  rect(width * .05, height * .0614, width * .9, height * .8772);
+  fill("black")
+  rect(width * .05, height * .0614, width * .02, height * .8772);
+  rect((width * .95 - width * .02), height * .0614, width * .02, height * .8772);
+  rect(width * .05, height * .0614, width * .9, height * .0245);
+  rect(width * .05, height * .9386 - height * .0245, width * .9, height * .0245);
+  strokeWeight(5);
+  line(width * .375, height, width * .42, height * .9386);
+  line(width * .625, height, width * .58, height * .9386);
+  
+  text("[Title of App]", width * .45, height * .20);
 }
 
 function showHomeScreen() {
@@ -144,6 +135,30 @@ function enterExercise2() {
   backButton.show();
   setup2 = true; //add something like this
   exerciseToEnter = 2;
+}
+
+function drawExercise2() {
+  background(240);
+  for (let i = 0; i < paragraphArray.length; i++) {
+    dx = textWidth(" ") * (i % charsBeforeNextLine);
+    if (i / charsBeforeNextLine >= 1) {
+      numNewLines = Math.floor(i / charsBeforeNextLine);
+    }
+  dy = sizeOfText * numNewLines;
+  if (i <= charArray.length - 1) {
+    if (charArray[i].charAt(0) === paragraphArray[i]) {
+      fill("limegreen");
+    } else {
+      fill("red");
+    }
+    character = charArray[i];
+  } else {
+    fill("grey");
+    character = paragraphArray[i];
+  }
+  text(character, xInitial + dx, yInitial + dy);
+  }
+  numNewLines = 0;
 }
 
 function keyPressed() {

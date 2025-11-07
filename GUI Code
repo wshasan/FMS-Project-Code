@@ -107,7 +107,7 @@ function drawHomeScreenDetails() {
   fill("orange");
   textSize(width *.07);
   textFont("default"); //2 options - use default or monospace font for title
-  text("[Title of App]", width * .33, height * .3);
+  text("Stroke Gear", width * .33, height * .3);
 }
 
 function showHomeScreen() {
@@ -137,6 +137,7 @@ function enterExercise1() {
   console.log("1");
   hideHomeButtons();
   backButton.show();
+  background(255);
   exerciseToEnter = 1;
 }
 
@@ -297,5 +298,6 @@ function enterExercise4() {
   console.log("4");
   hideHomeButtons();
   backButton.show();
+  background(255);
   exerciseToEnter = 4;
 }

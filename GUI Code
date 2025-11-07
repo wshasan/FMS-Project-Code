@@ -35,6 +35,11 @@ let startTime;
 let gameState = 'playing';
 let score = 0;
 
+//exercise 4 
+let circles2 = [];
+const CX = 320, CY = 360;
+
+
 function preload() {
   font = loadFont("Inconsolata.otf");
 }
@@ -85,7 +90,7 @@ function draw() {
   } else if (exerciseToEnter === 3) {
     drawExercise3();
   } else if (exerciseToEnter === 4) {
-    console.log("exercise 4 does thing");
+    drawExcercise4();
   }
 }
 
@@ -298,6 +303,65 @@ function enterExercise4() {
   console.log("4");
   hideHomeButtons();
   backButton.show();
-  background(255);
+  
+  text('first exercise',600,600)
+  if (typeof touchAction === "function") touchAction('none');
+  circles2 = [
+    new DraggableCircle(80, 400, 40),
+    new DraggableCircle(150, 160, 40),
+    new DraggableCircle(300, 103, 40),
+    new DraggableCircle(450, 144, 40),
+    new DraggableCircle(550, 276, 40)
+  ];
+  for (let c of circles2) c.initialDist = dist(c.x, c.y, CX, CY);
+  
   exerciseToEnter = 4;
+  
+}
+function drawExcercise4(){
+    background(255);
+  strokeWeight(2);
+  for (let c of circles2) {
+    const d = dist(c.x, c.y, CX, CY);
+    stroke(d > c.initialDist ? 'red' : 'green');
+    line(c.x, c.y, CX, CY);
+  }
+  for (let c of circles2) {
+    c.update();
+    c.show();
+  }
+  releaseFinishedTouches();
+}
+
+function mousePressed() {
+  for (let i = circles2.length - 1; i >= 0; i--) {
+    if (circles2[i].tryGrabAt(mouseX, mouseY, "mouse")) break;
+  }
+}
+function mouseReleased() {
+  for (let c of circles2) c.releaseIf("mouse");
+}
+
+function touchStarted() {
+  for (let t of touches) {
+    for (let i = circles2.length - 1; i >= 0; i--) {
+      if (!circles2[i].dragging && circles2[i].tryGrabAt(t.x, t.y, t.id)) break;
+    }
+  }
+  return false;
+}
+function touchMoved() { return false; }
+function touchEnded() { releaseFinishedTouches(); return false; }
+
+function getTouchById(id) {
+  for (let t of touches) if (t.id === id) return t;
+  return null;
+}
+function releaseFinishedTouches() {
+  for (let c of circles2) {
+    if (c.touchId !== null && c.touchId !== "mouse") {
+      const stillActive = getTouchById(c.touchId);
+      if (!stillActive) c.release();
+    }
+  }
 }

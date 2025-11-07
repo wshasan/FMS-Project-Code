@@ -1,0 +1,3 @@
+//Add the Inconsolata.otf file
+//Add <script src="DraggableCircle.js"></script> to the html file after "</main>" and before "<script src="sketch.js"></script>"
+//Add a new file called DraggableCircle.js and paste the code to this file from the github

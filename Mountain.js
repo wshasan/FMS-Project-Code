@@ -9,8 +9,8 @@ function startMTGame() {
   backButton.show();   
   
   backButton.position(
-  (windowWidth - 1080) / 2 + 3,  
-  (windowHeight - 780) / 2 + 750
+  (windowWidth - 1080) / 2 + 15,  
+  (windowHeight - 780) / 2 + 15
 );
 
   cnvMT = createCanvas(1080, 780);

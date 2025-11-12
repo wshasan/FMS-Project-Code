@@ -125,6 +125,7 @@ function showHomeScreen() {
   background(homeBackgroundColor);
   drawHomeScreenDetails();
   showHomeButtons();
+  location.reload();
 }
 
 function hideHomeButtons() {

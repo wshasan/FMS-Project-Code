@@ -147,8 +147,8 @@ function enterExercise1() {
   backButton.show();
   background(255);
   fill("black");
-  text("Placeholder for Exercise 1", width *.05, height *.5);
-  exerciseToEnter = 1;
+  let randomGame = random([startSeaGame, startMTGame]);
+  randomGame();
 }
 
 function enterExercise2() {

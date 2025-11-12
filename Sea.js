@@ -9,8 +9,8 @@ function startSeaGame() {
   backButton.show();   
   
   backButton.position(
-  (windowWidth - 1080) / 2 + 3,  
-  (windowHeight - 780) / 2 + 750
+  (windowWidth - 1080) / 2 + 15,  //+3
+  (windowHeight - 780) / 2 + 15   //+750
 );
 
   cnvSea = createCanvas(1080, 780);

@@ -1,7 +1,7 @@
 //Add the "Inconsolata.otf' file
 //Download and Add the 'BgSea.png' file
 //Download and Add the 'BgMT.png' file
-//Download and Add the 'CompletedSea.png' file
+//Download and Add the 'CompletedSea.png' file 
 //Download and Add the 'CompletedMT.png' file 
 
 //Add <script src="Sea.js"></script> to the html file after "</main>" and before "<script src="Mountain.js"></script>"

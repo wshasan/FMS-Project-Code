@@ -1,0 +1,233 @@
+let circles2 = [];
+const CX = 320, CY = 360;
+
+const FINGERS = [
+  "Thumb",
+  "Index",
+  "Middle",
+  "Ring",
+  "Pinky"
+];
+
+let currentTargetIndex = 0;
+let score = 0;
+const TARGET_RADIUS = 60;
+let gameOver = false;
+let restartButton;
+
+function setup() {
+  createCanvas(640, 640);
+  if (typeof touchAction === "function") touchAction("none");
+
+  circles2 = [
+    new DraggableCircle(80, 400, 40),
+    new DraggableCircle(150, 160, 40),
+    new DraggableCircle(300, 103, 40),
+    new DraggableCircle(450, 144, 40),
+    new DraggableCircle(550, 276, 40)
+  ];
+
+  for (let i = 0; i < circles2.length; i++) {
+    let c = circles2[i];
+    c.initialDist = dist(c.x, c.y, CX, CY);
+    c.homeX = c.x;
+    c.homeY = c.y;
+    c.fingerName = FINGERS[i] || ("Finger " + (i + 1));
+  }
+
+  textAlign(CENTER, CENTER);
+  textSize(18);
+
+  restartButton = createButton("Restart");
+  restartButton.position(width / 2 - 40, 80);
+  restartButton.mousePressed(restartGame);
+  restartButton.hide();
+}
+
+function draw() {
+  background(255);
+
+  noFill();
+  stroke(0);
+  strokeWeight(3);
+  circle(CX, CY, TARGET_RADIUS * 2);
+  fill(0);
+  noStroke();
+  textAlign(CENTER, CENTER);
+  text("TARGET", CX, CY);
+
+  textAlign(RIGHT, BOTTOM);
+  textSize(18);
+  fill(0);
+  text("Score: " + score, width - 10, height - 10);
+
+  if (gameOver) {
+    restartButton.show();
+    textAlign(CENTER, TOP);
+    textSize(28);
+    fill(0);
+    text("Well done! Game over.", width / 2, 40);
+    return;
+  } else {
+    restartButton.hide();
+  }
+
+  let activeCircle = circles2[currentTargetIndex];
+  textAlign(CENTER, TOP);
+  textSize(20);
+  text(
+    "Use your " + activeCircle.fingerName + " to drag the highlighted circle into the center target.",
+    width / 2,
+    20
+  );
+
+  strokeWeight(2);
+  for (let i = 0; i < circles2.length; i++) {
+    let c = circles2[i];
+    if (i === currentTargetIndex) stroke(0, 150, 0);
+    else stroke(180);
+    line(c.x, c.y, CX, CY);
+  }
+
+  for (let c of circles2) {
+    c.update();
+    c.show();
+  }
+
+  let dToTarget = dist(activeCircle.x, activeCircle.y, CX, CY);
+  if (dToTarget < TARGET_RADIUS * 0.7) {
+    score++;
+    activeCircle.resetPosition();
+    if (score >= 15) {
+      gameOver = true;
+    } else {
+      currentTargetIndex = (currentTargetIndex + 1) % circles2.length;
+    }
+  }
+
+  releaseFinishedTouches();
+}
+
+function mousePressed() {
+  if (gameOver) return;
+  for (let i = circles2.length - 1; i >= 0; i--) {
+    if (circles2[i].tryGrabAt(mouseX, mouseY, "mouse")) break;
+  }
+}
+
+function mouseReleased() {
+  if (gameOver) return;
+  for (let c of circles2) c.releaseIf("mouse");
+}
+
+function touchStarted() {
+  if (gameOver) return false;
+  for (let t of touches) {
+    for (let i = circles2.length - 1; i >= 0; i--) {
+      if (!circles2[i].dragging && circles2[i].tryGrabAt(t.x, t.y, t.id)) break;
+    }
+  }
+  return false;
+}
+
+function touchMoved() {
+  if (gameOver) return false;
+  return false;
+}
+
+function touchEnded() {
+  if (!gameOver) releaseFinishedTouches();
+  return false;
+}
+
+function getTouchById(id) {
+  for (let t of touches) if (t.id === id) return t;
+  return null;
+}
+
+function releaseFinishedTouches() {
+  for (let c of circles2) {
+    if (c.touchId !== null && c.touchId !== "mouse") {
+      const stillActive = getTouchById(c.touchId);
+      if (!stillActive) c.release();
+    }
+  }
+}
+
+function restartGame() {
+  score = 0;
+  gameOver = false;
+  currentTargetIndex = 0;
+  for (let c of circles2) c.resetPosition();
+}
+
+class DraggableCircle {
+  constructor(x, y, r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+    this.dragging = false;
+    this.touchId = null;
+    this.offsetX = 0;
+    this.offsetY = 0;
+    this.homeX = x;
+    this.homeY = y;
+    this.fingerName = "";
+  }
+
+  tryGrabAt(px, py, pid) {
+    const d = dist(px, py, this.x, this.y);
+    if (d < this.r && !this.dragging) {
+      this.dragging = true;
+      this.touchId = pid;
+      this.offsetX = this.x - px;
+      this.offsetY = this.y - py;
+      return true;
+    }
+    return false;
+  }
+
+  update() {
+    if (!this.dragging || gameOver) return;
+    if (this.touchId === "mouse") {
+      this.x = mouseX + this.offsetX;
+      this.y = mouseY + this.offsetY;
+    } else {
+      const t = getTouchById(this.touchId);
+      if (t) {
+        this.x = t.x + this.offsetX;
+        this.y = t.y + this.offsetY;
+      }
+    }
+  }
+
+  releaseIf(pid) {
+    if (this.touchId === pid) this.release();
+  }
+
+  release() {
+    this.dragging = false;
+    this.touchId = null;
+  }
+
+  resetPosition() {
+    this.x = this.homeX;
+    this.y = this.homeY;
+    this.dragging = false;
+    this.touchId = null;
+  }
+
+  show() {
+    let isActive = (this === circles2[currentTargetIndex] && !gameOver);
+    stroke(0);
+    strokeWeight(isActive ? 4 : 1);
+    fill(this.dragging ? 120 : (isActive ? 180 : 220));
+    circle(this.x, this.y, this.r * 2);
+
+    fill(0);
+    noStroke();
+    textAlign(CENTER, CENTER);
+    textSize(12);
+    text(this.fingerName, this.x, this.y);
+  }
+}

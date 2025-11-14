@@ -6,6 +6,9 @@ let button2;
 let button3;
 let button4;
 let backButton;
+let cvnGUI;
+let canvasX;
+let canvasY;
 
 //global variables for exercise 2 (along with initializing an array with a string)
 let charArray = [];
@@ -39,38 +42,56 @@ let score = 0;
 let circles2 = [];
 const CX = 320, CY = 360;
 
+function centerCanvasGUI() {
+  canvasX = (windowWidth - width) / 2;
+  canvasY = (windowHeight - height) / 2;
+  cnvGUI.position(canvasX, canvasY);
+}
 
+function repositionButtons() {
+  button1.position(canvasX + width * .16, canvasY + height * .45);
+  button2.position(canvasX + width * .54, canvasY + height * .45);
+  button3.position(canvasX + width * .16, canvasY + height * .67);
+  button4.position(canvasX + width * .54, canvasY + height * .67);
+  backButton.position(canvasX + 0, canvasY + (height - height / 16));
+}
+
+function windowResized() {
+  centerCanvasGUI();
+  repositionButtons();
+}
 function preload() {
   font = loadFont("Inconsolata.otf");
 }
 
 function setup() {
-  createCanvas(1080, 780);
+  cnvGUI = createCanvas(1080, 780);
+  centerCanvasGUI();
   background(homeBackgroundColor);
   drawHomeScreenDetails();
   
   button1 = createButton("Exercise 1");
-  button1.position(width *.16, height * .45);
+  button1.position(canvasX + width *.16,canvasY + height * .45);
   button1.size(width * .3, height * .1667);
   button1.mousePressed(enterExercise1);
   
   button2 = createButton("Exercise 2");
-  button2.position(width *.54, height * .45);
+  button2.position(canvasX + width *.54, canvasY + height * .45);
   button2.size(width * .3, height * .1667);
   button2.mousePressed(enterExercise2);
   
   button3 = createButton("Exercise 3");
-  button3.position(width * .16, height * .67);
+  button3.position(canvasX + width * .16, canvasY + height * .67);
   button3.size(width *.3, height * .1667);
   button3.mousePressed(enterExercise3);
   
   button4 = createButton("Exercise 4");
-  button4.position(width *.54, height * .67);
+  button4.position(canvasX + width *.54, canvasY + height * .67);
   button4.size(width * .3, height * .1667);
   button4.mousePressed(enterExercise4);
   
   backButton = createButton("Return");
-  backButton.position(0, height - height / 16);
+  backButton.position(canvasX + 10, canvasY + 10);
   backButton.size(width / 8, height / 16);
   backButton.mousePressed(showHomeScreen);
   backButton.hide();

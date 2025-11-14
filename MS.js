@@ -52,6 +52,13 @@ function drawMSGame() {
     background(bgMS);
   }
 
+  noStroke();
+  fill('black'); 
+  rect(0, 0, width, 15);
+  rect(0, height - 15, width, 15);
+  rect(0, 0, 15, height);
+  rect(width - 15, 0, 15, height);
+
   if (mouseIsPressed){
     for (let line of shapeLinesMS){
       for (let p of line.points){
@@ -122,23 +129,23 @@ function drawProgressBarMS(){
 function makeShapeLinesMS(){
   shapeLinesMS = [];
 
-  addLineMS(0, 550, 1080, 550);
+  addLineMS(20, 550, 1060, 550);
 
   addCircleMS(630, 120, 65);
 
-  addLineMS(0, 300, 300, 150);
+  addLineMS(20, 300, 300, 150);
   addLineMS(300, 150, 620, 280);
 
   addLineMS(450, 370, 780, 200);
-  addLineMS(780, 200, 1080, 350);
+  addLineMS(780, 200, 1060, 350);
 
   addLineMS(550, 430, 880, 320);
-  addLineMS(880, 320, 1080, 420);
+  addLineMS(880, 320, 1060, 420);
 
   addLineMS(100, 500, 360, 320);
   addLineMS(360, 320, 670, 500);
 
-  addLineMS(0, 430, 100, 350);
+  addLineMS(20, 430, 100, 350);
   addLineMS(100, 350, 200, 430);
 
   makeWaveMS(90, 650);

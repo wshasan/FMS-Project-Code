@@ -115,7 +115,7 @@ function drawHomeScreenDetails() {
   textStyle(NORMAL);
   textSize(width *.07);
   textFont("default"); //2 options - use default or monospace font for title
-  text("Stroke Gear", width * .33, height * .3);
+  text("STROKE GEAR", width * .255, height * .32);
 }
 
 function showHomeScreen() {

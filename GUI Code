@@ -73,21 +73,25 @@ function setup() {
   button1 = createButton("Exercise 1");
   button1.position(canvasX + width *.16,canvasY + height * .45);
   button1.size(width * .3, height * .1667);
+  button1.style("font-size", (width * 0.03) + "px");
   button1.mousePressed(enterExercise1);
   
   button2 = createButton("Exercise 2");
   button2.position(canvasX + width *.54, canvasY + height * .45);
   button2.size(width * .3, height * .1667);
+  button2.style("font-size", (width * 0.03) + "px");
   button2.mousePressed(enterExercise2);
   
   button3 = createButton("Exercise 3");
   button3.position(canvasX + width * .16, canvasY + height * .67);
   button3.size(width *.3, height * .1667);
+  button3.style("font-size", (width * 0.03) + "px");
   button3.mousePressed(enterExercise3);
   
   button4 = createButton("Exercise 4");
   button4.position(canvasX + width *.54, canvasY + height * .67);
   button4.size(width * .3, height * .1667);
+  button4.style("font-size", (width * 0.03) + "px");
   button4.mousePressed(enterExercise4);
   
   backButton = createButton("Return");

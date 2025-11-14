@@ -148,7 +148,7 @@ function enterExercise1() {
   backButton.show();
   background(255);
   fill("black");
-  let randomGame = random([startSeaGame, startMTGame]);
+  let randomGame = random([startSeaGame, startMTGame, startMSGame]);
   randomGame();
 }
 

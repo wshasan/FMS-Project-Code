@@ -291,19 +291,7 @@ function drawExercise3(){
   }
 }
 
-function mousePressed() {
-  if (gameState === 'playing') {
-    for (let i = circles.length - 1; i >= 0; i--) {
-      let c = circles[i];
-      let d = dist(mouseX, mouseY, c.x, c.y);
-      if (d < c.size / 2) {
-        circles.splice(i, 1);
-        score++;
-        break;
-      }
-    }
-  }
-}
+
 
 function enterExercise4() {
   console.log("4");
@@ -340,10 +328,30 @@ function drawExcercise4(){
 }
 
 function mousePressed() {
-  for (let i = circles2.length - 1; i >= 0; i--) {
-    if (circles2[i].tryGrabAt(mouseX, mouseY, "mouse")) break;
+
+  // --- Exercise 3: circle popping ---
+  if (exerciseToEnter === 3 && gameState === 'playing') {
+    for (let i = circles.length - 1; i >= 0; i--) {
+      let c = circles[i];
+      let d = dist(mouseX, mouseY, c.x, c.y);
+      if (d < c.size / 2) {
+        circles.splice(i, 1);
+        score++;
+        break;
+      }
+    }
+    return; 
+  }
+
+  // --- Exercise 4: draggable circles ---
+  if (exerciseToEnter === 4) {
+    for (let i = circles2.length - 1; i >= 0; i--) {
+      if (circles2[i].tryGrabAt(mouseX, mouseY, "mouse")) break;
+    }
+    return;
   }
 }
+
 function mouseReleased() {
   for (let c of circles2) c.releaseIf("mouse");
 }

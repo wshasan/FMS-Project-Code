@@ -45,7 +45,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(540, 440);
+  createCanvas(1080, 780);
   background(homeBackgroundColor);
   drawHomeScreenDetails();
   

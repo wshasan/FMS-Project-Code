@@ -1,13 +1,18 @@
 //Add the "Inconsolata.otf' file
 //Download and Add the 'BgSea.png' file
 //Download and Add the 'BgMT.png' file
+//Download and Add the 'BgMS.png' file
+
 //Download and Add the 'CompletedSea.png' file 
 //Download and Add the 'CompletedMT.png' file 
+//Download and Add the 'CompletedMS.png' file 
 
+//Add <script src="MS.js"></script> to the html file after "</main>" and before "<script src="Sea.js"></script>"
 //Add <script src="Sea.js"></script> to the html file after "</main>" and before "<script src="Mountain.js"></script>"
 //Add <script src="Mountain.js"></script> to the html file after "</main>" and before "<script src="DraggableCircle.js"></script>"
 //Add <script src="DraggableCircle.js"></script> to the html file after "</main>" and before "<script src="sketch.js"></script>"
 
+//Add a new file called 'MS.js' and paste the code to this file from the github
 //Add a new file called 'Sea.js' and paste the code to this file from the github
 //Add a new file called 'Mountain.js' and paste the code to this file from the github
 //Add a new file called 'DraggableCircle.js' and paste the code to this file from the github

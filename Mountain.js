@@ -9,8 +9,8 @@ function startMTGame() {
   backButton.show();   
   
   backButton.position(
-  (windowWidth - 1080) / 2 + 15,  //+3
-  (windowHeight - 780) / 2 + 15   //+750
+  (windowWidth - 1080) / 2 + 15,  
+  (windowHeight - 780) / 2 + 15
 );
 
   cnvMT = createCanvas(1080, 780);
@@ -50,6 +50,13 @@ function drawMTGame() {
   } else {
     background(bgMT);
   }
+  
+  noStroke();
+  fill('black'); 
+  rect(0, 0, width, 15);
+  rect(0, height - 15, width, 15);
+  rect(0, 0, 15, height);
+  rect(width - 15, 0, 15, height);
 
   if (mouseIsPressed){
     for (let line of shapeLinesMT){
@@ -121,24 +128,24 @@ function drawProgressBarMT(){
 function makeShapeLinesMT(){
   shapeLinesMT = [];
 
-  addCurveMT(0, height / 2, width * 0.25, height * 0.0005, width / 2, height / 2);
+  addCurveMT(20, height / 2, width * 0.25, height * 0.0005, width / 2, height / 2);
 
-  addCurveMT(width, height / 2, width * 0.75, height * 0.0005, width / 2, height / 2);
+  addCurveMT(width-20, height / 2, width * 0.75, height * 0.0005, width / 2, height / 2);
 
-  addLineMT(width / 2, height / 2, width * 0.35, height);
-  addLineMT(width / 2, height / 2, width * 0.65, height);
+  addLineMT(width / 2, height / 2, width * 0.35, height-20);
+  addLineMT(width / 2, height / 2, width * 0.65, height-20);
 
   addTriangleMT(width * 0.19, height * 0.65, width * 0.09, height * 0.90, width * 0.29, height * 0.90);
-  addRectMT(width * 0.165, height * 0.90, width * 0.05, height * 0.08);
+  addRectMT(width * 0.165, height * 0.90, width * 0.05, height * 0.06);
   
   addTriangleMT(width * 0.33, height * 0.60, width * 0.28, height * 0.75, width * 0.38, height * 0.75);
   addRectMT(width * 0.315, height * 0.75, width * 0.03, height * 0.05);
   
-  addTriangleMT(width * 0.06, height * 0.55, width * 0.01, height * 0.70, width * 0.11, height * 0.70);
-  addRectMT(width * 0.045, height * 0.70, width * 0.03, height * 0.05);
+  addTriangleMT(width * 0.06, height * 0.55, 20, height * 0.70, width * 0.11, height * 0.70);
+  addRectMT(width * 0.048, height * 0.70, width * 0.03, height * 0.05);
 
   addTriangleMT(width * 0.87, height * 0.65, width * 0.77, height * 0.90, width * 0.97, height * 0.90);
-  addRectMT(width * 0.845, height * 0.90, width * 0.05, height * 0.08);
+  addRectMT(width * 0.845, height * 0.90, width * 0.05, height * 0.06);
   
   addTriangleMT(width * 0.70, height * 0.62, width * 0.65, height * 0.77, width * 0.75, height * 0.77);
   addRectMT(width * 0.685, height * 0.77, width * 0.03, height * 0.07);

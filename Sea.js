@@ -9,8 +9,8 @@ function startSeaGame() {
   backButton.show();   
   
   backButton.position(
-  (windowWidth - 1080) / 2 + 15,  //+3
-  (windowHeight - 780) / 2 + 15   //+750
+  (windowWidth - 1080) / 2 + 15,  
+  (windowHeight - 780) / 2 + 15
 );
 
   cnvSea = createCanvas(1080, 780);
@@ -49,6 +49,12 @@ function drawSeaGame() {
   } else {
     background(bgSea);
   }
+  noStroke();
+  fill('black'); 
+  rect(0, 0, width, 15);
+  rect(0, height - 15, width, 15);
+  rect(0, 0, 15, height);
+  rect(width - 15, 0, 15, height);
 
   if (mouseIsPressed) {
     for (let line of shapeLinesSea) {
@@ -174,7 +180,7 @@ function makeWaveLineSea(){
   let waveY = topY + h + 25;
   let step = 10;
   let points = [];
-  for (let x = 0; x <= width; x += step){
+  for (let x = 20; x <= width - 20; x += step){
     let y = waveY + sin(x * 0.02) * 10;
     points.push({x, y, hit:false});
   }

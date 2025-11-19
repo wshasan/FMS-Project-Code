@@ -7,11 +7,6 @@ function startSeaGame() {
   
   hideHomeButtons();   
   backButton.show();   
-  
-  backButton.position(
-  (windowWidth - 1080) / 2 + 15,  
-  (windowHeight - 780) / 2 + 15
-);
 
   cnvSea = createCanvas(1080, 780);
   centerCanvasSea();

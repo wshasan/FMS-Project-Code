@@ -32,7 +32,7 @@ for (let i = 0; i < paragraph.length; i++) {
 let circles = [];
 let maxCircles = 50;
 let circleSize = 75;
-let lifetime = 60;
+let lifetime = 120;
 let totalTime = 30;
 let startTime;
 let gameState = 'playing';
@@ -62,6 +62,10 @@ function windowResized() {
 }
 function preload() {
   font = loadFont("Inconsolata.otf");
+  bgHome = loadImage("BgHome.png");
+  bg3 = loadImage("Bg3.png");
+  bg32 = loadImage("Bg32.png");
+
 }
 
 function setup() {
@@ -70,33 +74,58 @@ function setup() {
   background(homeBackgroundColor);
   drawHomeScreenDetails();
   
-  button1 = createButton("Exercise 1");
-  button1.position(canvasX + width *.16,canvasY + height * .45);
-  button1.size(width * .3, height * .1667);
-  button1.style("font-size", (width * 0.03) + "px");
+  button1 = createButton("EXERCISE 1");
+  button1.position(canvasX + width *.115,canvasY + height * .217);
+  button1.size(width * .3, height * .12);
+  button1.style("font-size", (width * 0.035) + "px");
+  button1.style("color", "white");
+  button1.style("background-color", "transparent"); 
+  button1.style("border", "none");
+  button1.style("border-radius", "15px");
+  button1.style("cursor", "pointer");
   button1.mousePressed(enterExercise1);
   
-  button2 = createButton("Exercise 2");
-  button2.position(canvasX + width *.54, canvasY + height * .45);
-  button2.size(width * .3, height * .1667);
-  button2.style("font-size", (width * 0.03) + "px");
+  button2 = createButton("EXERCISE 2");
+  button2.position(canvasX + width *.115, canvasY + height * .375);
+  button2.size(width * .3, height * .12);
+  button2.style("font-size", (width * 0.035) + "px");
+  button2.style("color", "white");
+  button2.style("background-color", "transparent"); 
+  button2.style("border", "none");
+  button2.style("border-radius", "15px");
+  button2.style("cursor", "pointer");
   button2.mousePressed(enterExercise2);
   
-  button3 = createButton("Exercise 3");
-  button3.position(canvasX + width * .16, canvasY + height * .67);
-  button3.size(width *.3, height * .1667);
-  button3.style("font-size", (width * 0.03) + "px");
+  button3 = createButton("EXERCISE 3");
+  button3.position(canvasX + width * .115, canvasY + height * .532);
+  button3.size(width *.3, height * .12);
+  button3.style("font-size", (width * 0.035) + "px");
+  button3.style("color", "white");
+  button3.style("background-color", "transparent"); 
+  button3.style("border", "none");
+  button3.style("border-radius", "15px");
+  button3.style("cursor", "pointer");
   button3.mousePressed(enterExercise3);
   
-  button4 = createButton("Exercise 4");
-  button4.position(canvasX + width *.54, canvasY + height * .67);
-  button4.size(width * .3, height * .1667);
-  button4.style("font-size", (width * 0.03) + "px");
+  button4 = createButton("EXERCISE 4");
+  button4.position(canvasX + width *.115, canvasY + height * .683);
+  button4.size(width * .3, height * .12);
+  button4.style("font-size", (width * 0.035) + "px");
+  button4.style("color", "white");
+  button4.style("background-color", "transparent"); 
+  button4.style("border", "none");
+  button4.style("border-radius", "15px");
+  button4.style("cursor", "pointer");
   button4.mousePressed(enterExercise4);
   
-  backButton = createButton("Return");
-  backButton.position(canvasX + 10, canvasY + 10);
-  backButton.size(width / 8, height / 16);
+  backButton = createButton("⏎  ");
+  backButton.position(canvasX + 15, canvasY + 15);
+  backButton.style("font-size", (width * 0.03) + "px");
+  backButton.size(60, 60);             
+  backButton.style("border-radius", "50%");
+  backButton.style("background-color", "red"); 
+  backButton.style("color", "white");
+  backButton.style("cursor", "pointer");
   backButton.mousePressed(showHomeScreen);
   backButton.hide();
   //buttons should actually go in setup. They create a lot of lag and take up a lot of processing power if there are multiple in the draw() function
@@ -124,8 +153,7 @@ function drawHomeScreenDetails() {
   rect(width / 27 * 23, height / 11, -width / 36, height / 11 * 7);
   rect(width / 27 * 4, height / 11, width / 36 * 25, height / 30);
   rect(width / 27 * 4, (height / 11 * 8) - (height / 30), width / 36 * 25, height / 30);*/
-  fill("grey");
-  rect(width * .05, height * .0614, width * .9, height * .8772);
+  image(bgHome, width * .05, height * .0614, width * .9, height * .8772);
   fill("black")
   rect(width * .05, height * .0614, width * .02, height * .8772);
   rect((width * .95 - width * .02), height * .0614, width * .02, height * .8772);
@@ -135,12 +163,13 @@ function drawHomeScreenDetails() {
   strokeWeight(10);
   line(width * .375, height, width * .42, height * .9386);
   line(width * .625, height, width * .58, height * .9386);
-  fill("orange");
+  fill("white");
   noStroke();
   textStyle(NORMAL);
   textSize(width *.07);
   textFont("default"); //2 options - use default or monospace font for title
-  text("STROKE GEAR", width * .25, height * .32);
+  text("STROKE", width * .55, height * .3);
+  text("GEAR", width * .64, height *.41)
 }
 
 function showHomeScreen() {
@@ -233,7 +262,12 @@ function enterExercise3() {
 }
 
 function drawExercise3(){
-  background(220);
+  
+  textFont(font);
+
+  if (bg3){
+    background(bg3);
+  }
 
   if (gameState === 'playing') {
     if (circles.length < maxCircles && random(1) < 0.02) {
@@ -258,9 +292,11 @@ function drawExercise3(){
 
     for (let i = circles.length - 1; i >= 0; i--) {
       let c = circles[i];
-      fill(0, 100, 200);
-      noStroke();
+      fill('#white');
+      strokeWeight(3);
+      stroke('#eae0c8');
       circle(c.x, c.y, c.size);
+      noStroke();
 
       c.lifetime--;
       if (c.lifetime <= 0) circles.splice(i, 1);
@@ -269,51 +305,38 @@ function drawExercise3(){
     let elapsedTime = millis() - startTime;
     let timeRemaining = totalTime - Math.floor(elapsedTime / 1000);
 
-    textSize(24);
+    textSize(80);
     fill(0);
-    textAlign(RIGHT, BOTTOM);
+    textAlign(CENTER, CENTER);
     if (timeRemaining > 0) {
-      text(timeRemaining, width - 20, height - 20);
+      text(timeRemaining, (width / 2), height - 720);
     } else {
       gameState = 'gameOver';
     }
-
-    textAlign(LEFT, BOTTOM);
-    text(`Score: ${score}`, 20, height - 20);
-
-  } else if (gameState === 'gameOver') {
-    textSize(48);
+    
+    textSize(40);
     textAlign(CENTER, CENTER);
-    fill(255, 0, 0);
-    text("Nice Job!", width / 2, height / 2 - 200);
+    text(`pearl: ${score}`, (width / 2), height - 660);
+    
+} else if (gameState === 'gameOver') {
+    background(bg32); 
 
+    textAlign(CENTER, CENTER);
 
-    fill(0, 0, 255);
-    noStroke();
-
-    let faceCenterX = width / 2;
-    let faceCenterY = height / 2 + 100;
-    let eyeOffsetX = 120;
-    let eyeOffsetY = -100;
-
-
-    circle(faceCenterX - eyeOffsetX, faceCenterY + eyeOffsetY, 60);
-    circle(faceCenterX + eyeOffsetX, faceCenterY + eyeOffsetY, 60);
-
-    let mouthDots = 9;
-    let mouthWidth = 400;
-    let mouthHeight = 120;
-    let mouthY = faceCenterY + 80;
-
-    for (let i = 0; i < mouthDots; i++) {
-      let t = map(i, 0, mouthDots - 1, -1, 1);
-      let x = faceCenterX + t * (mouthWidth / 2);
-      let y = mouthY - (t * t) * mouthHeight;
-      circle(x, y, 60);
-    }
+    fill('white');
+    stroke('#eae0c8');
+    textSize(80);
+    text(`you've got ${score} pearls`, width / 2, height - 150);
 
     noLoop();
   }
+  
+  noStroke();
+  fill('black'); 
+  rect(0, 0, width, 15);
+  rect(0, height - 15, width, 15);
+  rect(0, 0, 15, height);
+  rect(width - 15, 0, 15, height);
 }
 
 

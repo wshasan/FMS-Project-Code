@@ -40,9 +40,6 @@ function centerCanvas() {
   cnvMS.position(x, y);
 }
 
-function windowResized() {
-  centerCanvas();
-}
 
 function drawMSGame() {
   if (isCompletedMS) {

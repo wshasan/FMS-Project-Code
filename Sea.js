@@ -93,12 +93,6 @@ function centerCanvasSea() {
   cnvSea.position(x, y);
 }
 
-function windowResized() {
-  resizeCanvas(1080, 780);
-  makeShapeLinesSea();
-  centerCanvasSea();
-}
-
 function drawProgressBarSea() {
   let total = 0;
   let completed = 0;

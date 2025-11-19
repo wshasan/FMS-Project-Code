@@ -84,6 +84,7 @@ function setup() {
   button1.style("border-radius", "15px");
   button1.style("cursor", "pointer");
   button1.mousePressed(enterExercise1);
+  button1.touchStarted(enterExercise1);
   
   button2 = createButton("EXERCISE 2");
   button2.position(canvasX + width *.115, canvasY + height * .375);
@@ -95,6 +96,7 @@ function setup() {
   button2.style("border-radius", "15px");
   button2.style("cursor", "pointer");
   button2.mousePressed(enterExercise2);
+  button2.touchStarted(enterExercise2);
   
   button3 = createButton("EXERCISE 3");
   button3.position(canvasX + width * .115, canvasY + height * .532);
@@ -106,6 +108,7 @@ function setup() {
   button3.style("border-radius", "15px");
   button3.style("cursor", "pointer");
   button3.mousePressed(enterExercise3);
+  button3.touchStarted(enterExercise3);
   
   button4 = createButton("EXERCISE 4");
   button4.position(canvasX + width *.115, canvasY + height * .683);
@@ -117,6 +120,7 @@ function setup() {
   button4.style("border-radius", "15px");
   button4.style("cursor", "pointer");
   button4.mousePressed(enterExercise4);
+  button4.touchStarted(enterExercise4);
   
   backButton = createButton("⏎  ");
   backButton.position(canvasX + 15, canvasY + 15);
@@ -128,6 +132,7 @@ function setup() {
   backButton.style("cursor", "pointer");
   backButton.mousePressed(showHomeScreen);
   backButton.hide();
+  backButton.touchStarted(showHomeScreen);
   //buttons should actually go in setup. They create a lot of lag and take up a lot of processing power if there are multiple in the draw() function
 }
 

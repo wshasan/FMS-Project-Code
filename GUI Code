@@ -120,9 +120,9 @@ function setup() {
   button4.touchStarted(enterExercise4);
   
   backButton = createButton("⏎  ");
-  backButton.position(canvasX + 15, canvasY + 15);
-  backButton.style("font-size", (width * 0.03) + "px");
-  backButton.size(60, 60);             
+  backButton.position(canvasX + 20, canvasY + 20);
+  backButton.style("font-size", (width * 0.025) + "px");
+  backButton.size(50, 50);             
   backButton.style("border-radius", "50%");
   backButton.style("background-color", "red"); 
   backButton.style("color", "white");

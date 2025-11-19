@@ -39,10 +39,6 @@ function centerCanvasMT() {
   cnvMT.position(x, y);
 }
 
-function windowResized() {
-  centerCanvasMT();
-}
-
 function drawMTGame() {
   if (isCompletedMT) {
     background(bgCompleteMT);

@@ -56,10 +56,7 @@ function repositionButtons() {
   backButton.position(canvasX + 0, canvasY + (height - height / 16));
 }
 
-function windowResized() {
-  centerCanvasGUI();
-  repositionButtons();
-}
+
 function preload() {
   font = loadFont("Inconsolata.otf");
   bgHome = loadImage("BgHome.png");

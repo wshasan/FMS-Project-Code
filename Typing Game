@@ -1,63 +1,127 @@
-//NOTE: work on making it so that words are not cut in half between lines and on making a results screen
-//maybe make text prompt say positive or supportive stuff
-//semi-transparant picture in background- paired with text
-let charArray = [];
+let inputArray = [];
 let paragraphArray = [];
+let paragraphWordsArray = [];
+let wordIndex = 0;
 let character = "";
-let xInitial = 100;
-let yInitial = 150;
+let charWidth;
+let xInitial;
+let yInitial;
 let dx = 0;
 let dy = 0;
 let numNewLines = 0;
-let sizeOfText = 20;
-let charsBeforeNextLine = 20;
+let charsBeforeNextLine;
 let font;
-
-let paragraph = "The brown fox ate the red and blue berries in the afternoon";
-for (let i = 0; i < paragraph.length; i++) {
-  paragraphArray.push(paragraph.charAt(i));
-}
+let paragraph = "";
+let paragraph1 = "Under the stars I gazed with slant eyes. In blackness I dreamt, the stars were my lies.";
+let paragraph2 = "In that moment, the world froze solid. Then the sky exploded with a blinding cascade of rainbow colors.";
+let paragraph3 = "The wolf silently stalks its prey. It waits patiently until the right moment, and then it pounces!";
+let hasFinished = false;
+let firstEntry = true;
 
 function preload() {
   font = loadFont("Inconsolata.otf");
 }
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(540, 390);
   textFont(font);
-  textSize(sizeOfText);
+  textSize(width *.06);
+  noStroke();
+  xInitial = width / 5.4;
+  yInitial = height / 3.3913; 
+  charWidth = textWidth(" ");
+  charHeight = charWidth * 1.5;
+  charsBeforeNextLine = Math.floor((width - 1.6 * xInitial) / charWidth);
+  
+  let ranNum = Math.floor(random(1, 4));
+  
+  if (ranNum === 1) {
+    paragraph = paragraph1;
+  } else if (ranNum === 2) {
+    paragraph = paragraph2; 
+  } else if (ranNum === 3) {
+    paragraph = paragraph3;
+  }
+  
+  for (let i = 0; i < paragraph.length; i++) {
+    paragraphArray.push(paragraph.charAt(i));
+  }
+  let word = "";
+  let length = 0;
+  for (let i = 0; i < paragraph.length + 1; i++) {
+    if (paragraph.charAt(i) != " " && i != paragraph.length) {
+      word += paragraph.substring(i, i + 1);
+      length++;
+    } else {
+      paragraphWordsArray.push([word, length]);
+      word = "";
+      length = 0;
+    }
+  }
 }
 
 function draw() {
-  background(240);
-  
-  for (let i = 0; i < paragraphArray.length; i++) {
-    dx = textWidth(" ") * (i % charsBeforeNextLine);
-    if (i / charsBeforeNextLine >= 1) {
-      numNewLines = Math.floor(i / charsBeforeNextLine);
-    }
-    dy = sizeOfText * numNewLines;
-    if (i <= charArray.length - 1) {
-      if (charArray[i].charAt(0) === paragraphArray[i]) {
-        fill("limegreen");
-      } else {
-        fill("red");
+  background(255);
+  fill("black");
+  rect(0, 0, width, 15);
+  rect(0, height - 15, width, 15);
+  rect(0, 0, 15, height);
+  rect(width - 15, 0, 15, height);
+  let wordLength = 0;
+  let spacing = 0;
+  let firstCharSinceSpace = true;
+  if (!hasFinished) {
+    for (let i = 0; i < paragraphArray.length; i++) {
+      if (paragraphArray[i] === " ") {
+        wordIndex++;
+        firstCharSinceSpace = true;
       }
-      character = charArray[i];
-    } else {
-      fill("grey");
-      character = paragraphArray[i];
+      wordLength = paragraphWordsArray[wordIndex][1];
+      if (paragraphArray[i] === paragraphWordsArray[wordIndex][0].charAt(0) && firstCharSinceSpace) {
+        firstCharSinceSpace = false;
+        if (Math.floor((i + spacing + wordLength) / charsBeforeNextLine) > Math.floor((i + spacing) / charsBeforeNextLine)) {
+          spacing += wordLength - (i + spacing + wordLength) % charsBeforeNextLine;
+        }
+      }
+      dx = charWidth * ((i + spacing) % charsBeforeNextLine);
+      if ((i + spacing) / charsBeforeNextLine >= 1) {
+        numNewLines = Math.floor((i + spacing) / charsBeforeNextLine);
+      }
+      dy = charHeight * 1.2 * numNewLines;
+      if (i <= inputArray.length - 1) {
+        if (inputArray[i] === paragraphArray[i]) {
+          fill("limegreen");
+        } else {
+          fill("red");
+          if (inputArray[i] === " ") {
+          rect(xInitial + dx, yInitial + dy - charHeight, charWidth, charHeight);
+          }
+        }
+        character = inputArray[i];
+      } else {
+        fill("grey");
+        character = paragraphArray[i];
+      }
+      text(character, xInitial + dx, yInitial + dy);
+      if (inputArray.length === paragraphArray.length && i === paragraphArray.length - 1) {
+        hasFinished = true;
+      }
     }
-    text(character, xInitial + dx, yInitial + dy);
   }
+  if (hasFinished) {
+    background("lightblue");
+    fill("yellow");
+    text("Congratulations!", xInitial + charWidth * 3, yInitial + charHeight * 1.5 * 2);
+  }
+  wordIndex = 0;
   numNewLines = 0;
 }
 
 function keyPressed() {
-  if (keyCode >= 65 && keyCode <= 90 || key == ' ') {
-    charArray.push(key);
+  if (keyCode >= 65 && keyCode <= 90 || keyCode === 188 || keyCode === 49 || keyCode === 190 || key === ' ') {
+    inputArray.push(key);
   } 
   else if (keyCode === 8) {
-    charArray.splice(-1, 1);
+    inputArray.splice(-1, 1);
   }
 }

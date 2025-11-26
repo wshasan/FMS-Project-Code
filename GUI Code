@@ -1,4 +1,4 @@
-let homeBackgroundColor = 255;
+let homeBackgroundColor = 230;
 let exerciseToEnter = 0;
 
 let button1;

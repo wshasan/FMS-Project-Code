@@ -266,10 +266,8 @@ function enterExercise3() {
 function drawExercise3(){
   
   textFont(font);
+  background(bg3);
 
-  if (bg3){
-    background(bg3);
-  }
 
   if (gameState === 'playing') {
     if (circles.length < maxCircles && random(1) < 0.02) {

@@ -405,13 +405,36 @@ function mouseReleased() {
 }
 
 function touchStarted() {
-  for (let t of touches) {
-    for (let i = circles2.length - 1; i >= 0; i--) {
-      if (!circles2[i].dragging && circles2[i].tryGrabAt(t.x, t.y, t.id)) break;
+  if (exerciseToEnter === 3 && gameState === 'playing') {
+    for (let t of touches) {
+      let tx = t.x;
+      let ty = t.y;
+
+      for (let i = circles.length - 1; i >= 0; i--) {
+        let c = circles[i];
+        let d = dist(tx, ty, c.x, c.y);
+        if (d < c.size / 2) {
+          circles.splice(i, 1);
+          score++;
+          break;
+        }
+      }
     }
+    return false;
   }
+
+  if (exerciseToEnter === 4) {
+    for (let t of touches) {
+      for (let i = circles2.length - 1; i >= 0; i--) {
+        if (!circles2[i].dragging && circles2[i].tryGrabAt(t.x, t.y, t.id)) break;
+      }
+    }
+    return false;
+  }
+
   return false;
 }
+
 function touchMoved() { return false; }
 function touchEnded() { releaseFinishedTouches(); return false; }
 

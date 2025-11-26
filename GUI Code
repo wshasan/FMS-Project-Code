@@ -1,4 +1,4 @@
-let homeBackgroundColor = 230;
+let homeBackgroundColor = 255;
 let exerciseToEnter = 0;
 
 let button1;
@@ -42,6 +42,21 @@ let score = 0;
 let circles2 = [];
 const CX = 320, CY = 360;
 
+const FINGERS = [ // <-- Bu eksik
+  "Thumb",
+  "Index",
+  "Middle",
+  "Ring",
+  "Pinky"
+];
+
+let currentTargetIndex = 0;
+let score1 = 0;
+const TARGET_RADIUS = 60; // <-- Bu eksik
+let gameOver = false;
+let restartButton;
+let bg4;
+
 function centerCanvasGUI() {
   canvasX = (windowWidth - width) / 2;
   canvasY = (windowHeight - height) / 2;
@@ -62,17 +77,18 @@ function preload() {
   bgHome = loadImage("BgHome.png");
   bg3 = loadImage("Bg3.png");
   bg32 = loadImage("Bg32.png");
+  bg4 = loadImage("Bg4.jpg");
 
 }
 
 function setup() {
   cnvGUI = createCanvas(1080, 780);
-  centerCanvasGUI();
+  //centerCanvasGUI();
   background(homeBackgroundColor);
   drawHomeScreenDetails();
   
   button1 = createButton("EXERCISE 1");
-  button1.position(canvasX + width *.115,canvasY + height * .217);
+  button1.position(width *.115,height * .217);
   button1.size(width * .3, height * .12);
   button1.style("font-size", (width * 0.035) + "px");
   button1.style("color", "white");
@@ -84,7 +100,7 @@ function setup() {
   button1.touchStarted(enterExercise1);
   
   button2 = createButton("EXERCISE 2");
-  button2.position(canvasX + width *.115, canvasY + height * .375);
+  button2.position(width *.115, height * .375);
   button2.size(width * .3, height * .12);
   button2.style("font-size", (width * 0.035) + "px");
   button2.style("color", "white");
@@ -96,7 +112,7 @@ function setup() {
   button2.touchStarted(enterExercise2);
   
   button3 = createButton("EXERCISE 3");
-  button3.position(canvasX + width * .115, canvasY + height * .532);
+  button3.position(width * .115, height * .532);
   button3.size(width *.3, height * .12);
   button3.style("font-size", (width * 0.035) + "px");
   button3.style("color", "white");
@@ -106,9 +122,10 @@ function setup() {
   button3.style("cursor", "pointer");
   button3.mousePressed(enterExercise3);
   button3.touchStarted(enterExercise3);
+
   
   button4 = createButton("EXERCISE 4");
-  button4.position(canvasX + width *.115, canvasY + height * .683);
+  button4.position(width *.115, height * .683);
   button4.size(width * .3, height * .12);
   button4.style("font-size", (width * 0.035) + "px");
   button4.style("color", "white");
@@ -120,7 +137,7 @@ function setup() {
   button4.touchStarted(enterExercise4);
   
   backButton = createButton("⏎  ");
-  backButton.position(canvasX + 20, canvasY + 20);
+  backButton.position(20, 20);
   backButton.style("font-size", (width * 0.025) + "px");
   backButton.size(50, 50);             
   backButton.style("border-radius", "50%");
@@ -130,6 +147,7 @@ function setup() {
   backButton.mousePressed(showHomeScreen);
   backButton.hide();
   backButton.touchStarted(showHomeScreen);
+
   //buttons should actually go in setup. They create a lot of lag and take up a lot of processing power if there are multiple in the draw() function
 }
 
@@ -266,8 +284,10 @@ function enterExercise3() {
 function drawExercise3(){
   
   textFont(font);
-  background(bg3);
 
+  if (bg3){
+    background(bg3);
+  }
 
   if (gameState === 'playing') {
     if (circles.length < maxCircles && random(1) < 0.02) {
@@ -339,114 +359,294 @@ function drawExercise3(){
   rect(width - 15, 0, 15, height);
 }
 
-
-
 function enterExercise4() {
-  console.log("4");
-  hideHomeButtons();
-  backButton.show();
-  
-  text('first exercise',600,600)
-  if (typeof touchAction === "function") touchAction('none');
-  circles2 = [
-    new DraggableCircle(80, 400, 40),
-    new DraggableCircle(150, 160, 40),
-    new DraggableCircle(300, 103, 40),
-    new DraggableCircle(450, 144, 40),
-    new DraggableCircle(550, 276, 40)
-  ];
-  for (let c of circles2) c.initialDist = dist(c.x, c.y, CX, CY);
-  
-  exerciseToEnter = 4;
-  
+  console.log("4");
+  hideHomeButtons();
+  backButton.show();
+
+  // touchAction'ın tanımlı olup olmadığını kontrol et
+  if (typeof touchAction === "function") touchAction("none"); 
+
+  circles2 = [
+    new DraggableCircle(width * 0.18, height * 0.70, 40),
+    new DraggableCircle(width * 0.32, height * 0.55, 40),
+    new DraggableCircle(width * 0.50, height * 0.50, 40),
+    new DraggableCircle(width * 0.68, height * 0.55, 40),
+    new DraggableCircle(width * 0.82, height * 0.70, 40)
+  ];
+
+  let centerX = width / 2;
+  let centerY = height * 0.60;
+
+  for (let i = 0; i < circles2.length; i++) {
+    let c = circles2[i];
+    // c.initialDist kodun bu versiyonunda kullanılmamaktadır
+    c.homeX = c.x;
+    c.homeY = c.y;
+    c.fingerName = FINGERS[i] || ("Finger " + (i + 1));
+  }
+
+  textAlign(CENTER, CENTER);
+  textSize(9);
+
+  score1 = 0;
+  gameOver = false;
+  currentTargetIndex = 0;
+
+  exerciseToEnter = 4;
 }
-function drawExcercise4(){
-    background(255);
-  strokeWeight(2);
-  for (let c of circles2) {
-    const d = dist(c.x, c.y, CX, CY);
-    stroke(d > c.initialDist ? 'red' : 'green');
-    line(c.x, c.y, CX, CY);
-  }
-  for (let c of circles2) {
-    c.update();
-    c.show();
-  }
-  releaseFinishedTouches();
+
+function drawInstructionText(txt) {
+  let margin = width * 0.08;
+  let x = margin;
+  let y = 15;
+  let maxWidth = width - margin * 2;
+
+  fill(0);
+  noStroke();
+  textAlign(LEFT, TOP);
+  textSize(10);
+  textLeading(12);
+
+  text(txt, x, y, maxWidth, 80);
 }
+
+
+function drawExcercise4() {
+  if (bg4) {
+    image(bg4, 0, 0, width, height); 
+  } else {
+    background(255); 
+  }
+
+  if (gameOver) {
+    textFont("sans-serif"); 
+    textStyle(NORMAL); 
+    textAlign(CENTER, CENTER);
+
+    fill(0, 150, 0);
+    textSize(width * 0.06);
+    text("You Won!", width / 2, height * 0.25); // Kazanma mesajı İngilizce
+
+    textSize(width * 0.03);
+    fill(0);
+    text("Your Score: " + score1 + " / 15", width / 2, height * 0.35);
+
+    if (winImage) { // winImage değişkeninizin tanımlı olması gerekir
+      imageMode(CENTER);
+      let imgW = width * 0.5;
+      let imgH = (winImage.height / winImage.width) * imgW;
+      image(winImage, width / 2, height * 0.65, imgW, imgH);
+    }
+    return;
+  } 
+
+  textFont("sans-serif"); 
+  textStyle(NORMAL); 
+  textSize(width * 0.03); 
+  textLeading(width * 0.04); 
+  textAlign(CENTER, CENTER);
+
+  let centerX = width / 2;
+  let centerY = height * 0.60;
+
+  noFill();
+  stroke(0);
+  strokeWeight(3);
+  circle(centerX, centerY, TARGET_RADIUS * 2);
+
+  fill(0);
+  noStroke();
+  text("TARGET", centerX, centerY);
+
+  let activeCircle = circles2[currentTargetIndex];
+
+  let line1 = "Use your " + activeCircle.fingerName + " finger";
+  let line2 = "to drag the highlighted circle";
+  let line3 = "into the target.";
+
+  textSize(width * 0.015); 
+  textAlign(CENTER, TOP);
+
+  let baseY = height * 0.08; 
+  let lineSpacing = height * 0.025; 
+
+  text(line1, width / 2, baseY);
+  text(line2, width / 2, baseY + lineSpacing); 
+  text(line3, width / 2, baseY + lineSpacing * 2); 
+
+  textAlign(RIGHT, TOP);
+  textSize(width * 0.02);
+  fill(0);
+  text("Score: " + score1 + " / 15", width - width * 0.05, height * 0.02);
+
+  strokeWeight(1);
+  for (let i = 0; i < circles2.length; i++) {
+    let c = circles2[i];
+    stroke(i === currentTargetIndex ? color(0,150,0) : 180);
+    line(c.x, c.y, centerX, centerY);
+  }
+
+  for (let c of circles2) {
+    c.update();
+    c.show();
+  }
+
+  textAlign(CENTER, CENTER);
+  textSize(width * 0.015); 
+  fill(0);
+  noStroke();
+  for (let c of circles2) {
+    text(c.fingerName, c.x, c.y - c.r - 10);
+  }
+
+  let dToTarget = dist(activeCircle.x, activeCircle.y, centerX, centerY);
+  // Top hedefin içindeyse VE sürüklenmiyor/bırakılmışsa puanla
+  if (dToTarget < TARGET_RADIUS * 0.7 && !activeCircle.dragging) { 
+    score1++;
+    activeCircle.resetPosition();
+    if (score1 >= 15) {
+      gameOver = true;
+    } else {
+      currentTargetIndex = (currentTargetIndex + 1) % circles2.length;
+    }
+  }
+
+  releaseFinishedTouches();
+}
+
+function restartGame() {
+  enterExercise4();
+}
+
 
 function mousePressed() {
-
-  // --- Exercise 3: circle popping ---
-  if (exerciseToEnter === 3 && gameState === 'playing') {
-    for (let i = circles.length - 1; i >= 0; i--) {
-      let c = circles[i];
-      let d = dist(mouseX, mouseY, c.x, c.y);
-      if (d < c.size / 2) {
-        circles.splice(i, 1);
-        score++;
-        break;
-      }
-    }
-    return; 
-  }
-
-  // --- Exercise 4: draggable circles ---
-  if (exerciseToEnter === 4) {
-    for (let i = circles2.length - 1; i >= 0; i--) {
-      if (circles2[i].tryGrabAt(mouseX, mouseY, "mouse")) break;
-    }
-    return;
-  }
-}
-
-function mouseReleased() {
-  for (let c of circles2) c.releaseIf("mouse");
-}
-
-function touchStarted() {
-  if (exerciseToEnter === 3 && gameState === 'playing') {
-    for (let t of touches) {
-      let tx = t.x;
-      let ty = t.y;
-
-      for (let i = circles.length - 1; i >= 0; i--) {
-        let c = circles[i];
-        let d = dist(tx, ty, c.x, c.y);
-        if (d < c.size / 2) {
-          circles.splice(i, 1);
-          score++;
-          break;
-        }
-      }
-    }
-    return false;
-  }
-
-  if (exerciseToEnter === 4) {
-    for (let t of touches) {
-      for (let i = circles2.length - 1; i >= 0; i--) {
-        if (!circles2[i].dragging && circles2[i].tryGrabAt(t.x, t.y, t.id)) break;
-      }
-    }
-    return false;
-  }
-
+  // Egzersiz 3 ve diğerlerinin tıklamalarına izin verir, sadece Egzersiz 4 için sürüklemeyi başlatır.
+  if (exerciseToEnter === 4 && !gameOver) {
+    for (let i = circles2.length - 1; i >= 0; i--) {
+      // Sadece hedeflenen dairenin sürüklenmesine izin ver
+      if (i === currentTargetIndex && circles2[i].tryGrabAt(mouseX, mouseY, "mouse")) {
+        break;
+      }
+    }
+  }
+  // Diğer egzersizlerin fare olaylarını almasına izin vermek için return false ile sonlandırılmaz.
+  // Ancak p5.js'te tarayıcı kaydırmasını engellemek için genellikle false döndürülür.
+  // Bu yüzden en alta ekliyoruz:
   return false;
 }
 
-function touchMoved() { return false; }
-function touchEnded() { releaseFinishedTouches(); return false; }
+function mouseReleased() {
+  if (exerciseToEnter === 4 && !gameOver) {
+    for (let c of circles2) c.releaseIf("mouse");
+  }
+}
+
+function touchStarted() {
+  // Egzersiz 4 dışında her egzersiz için, tarayıcı kaydırmasını engellemek için sadece `return false` yapılır.
+  if (exerciseToEnter !== 4 || gameOver) {
+    return false; 
+  }
+  
+  // Egzersiz 4 mantığı
+  for (let t of touches) {
+    for (let i = circles2.length - 1; i >= 0; i--) {
+      // Sadece hedeflenen dairenin sürüklenmesine izin ver
+      if (i === currentTargetIndex && !circles2[i].dragging && circles2[i].tryGrabAt(t.x, t.y, t.id)) {
+        break;
+      }
+    }
+  }
+  return false;
+}
+
+function touchMoved() {
+  if (exerciseToEnter !== 4 || gameOver) return false;
+  return false;
+}
+
+function touchEnded() {
+  if (exerciseToEnter === 4 && !gameOver) releaseFinishedTouches();
+  return false;
+}
 
 function getTouchById(id) {
-  for (let t of touches) if (t.id === id) return t;
-  return null;
+  for (let t of touches) {
+    if (t.id === id) return t;
+  }
+  return null;
 }
+
 function releaseFinishedTouches() {
-  for (let c of circles2) {
-    if (c.touchId !== null && c.touchId !== "mouse") {
-      const stillActive = getTouchById(c.touchId);
-      if (!stillActive) c.release();
-    }
-  }
+  for (let c of circles2) {
+    if (c.touchId !== null && c.touchId !== "mouse") {
+      const stillActive = getTouchById(c.touchId);
+      if (!stillActive) c.release();
+    }
+  }
+}
+
+class DraggableCircle {
+  constructor(x, y, r) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+    this.dragging = false;
+    this.touchId = null;
+    this.offsetX = 0;
+    this.offsetY = 0;
+    this.homeX = x;
+    this.homeY = y;
+    this.fingerName = "";
+  }
+
+  tryGrabAt(px, py, pid) {
+    const d = dist(px, py, this.x, this.y);
+    if (d < this.r && !this.dragging) {
+      this.dragging = true;
+      this.touchId = pid;
+      this.offsetX = this.x - px;
+      this.offsetY = this.y - py;
+      return true;
+    }
+    return false;
+  }
+
+  update() {
+    if (!this.dragging || gameOver) return;
+    if (this.touchId === "mouse") {
+      this.x = mouseX + this.offsetX;
+      this.y = mouseY + this.offsetY;
+    } else {
+      const t = getTouchById(this.touchId);
+      if (t) {
+        this.x = t.x + this.offsetX;
+        this.y = t.y + this.offsetY;
+      }
+    }
+  }
+
+  releaseIf(pid) {
+    if (this.touchId === pid) this.release();
+  }
+
+  release() {
+    this.dragging = false;
+    this.touchId = null;
+  }
+
+  resetPosition() {
+    this.x = this.homeX;
+    this.y = this.homeY;
+    this.dragging = false;
+    this.touchId = null;
+  }
+
+  show() {
+    let isActive = this === circles2[currentTargetIndex] && !gameOver;
+    stroke(0);
+    strokeWeight(isActive ? 4 : 1);
+    fill(this.dragging ? 120 : isActive ? 180 : 220);
+    circle(this.x, this.y, this.r * 2);
+  }
 }
